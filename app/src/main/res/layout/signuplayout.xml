@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b3b3b3"
+    tools:context="com.example.admin.testfirebase.RegisterActivity">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.6"
+        android:id="@+id/txtEmail"
+        android:hint="Email"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:paddingLeft="28dp"
+        android:background="@drawable/roundedittext"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/txtPass"
+        android:background="@drawable/roundedittext"
+        android:hint="password"
+        android:paddingLeft="28dp"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/txtPass2"
+        android:background="@drawable/roundedittext"
+        android:hint="re-enter password"
+        android:paddingLeft="28dp"
+        android:inputType="textPassword"/>
+
+
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:text="I have read and agree to the Terms of Use and Privacy Policy."
+        android:textSize="11dp"
+        android:buttonTint="#58ffc1"
+        android:id="@+id/btnCheck"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:text="create my account"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="55dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="65dp"
+        android:background="@drawable/signupbutton"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:id="@+id/btnReg"/>
+
+
+</LinearLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b3b3b3"
+    android:orientation="vertical"
+    tools:context="com.example.admin.testfirebase.LoginActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:id="@+id/logo"
+        android:layout_weight="4.8"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_gravity="center_vertical"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.6"
+        android:id="@+id/txtEmail"
+        android:hint="email"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:paddingLeft="28dp"
+        android:background="@drawable/roundedittext"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/txtPass"
+        android:background="@drawable/roundedittext"
+        android:hint="password"
+        android:paddingLeft="28dp"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.2"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:text="sign-in"
+        android:layout_marginLeft="125dp"
+        android:layout_marginRight="125dp"
+        android:background="@drawable/roundedittext"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textAllCaps="false"
+        android:id="@+id/btnSign"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.8"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:text="don't have an account?"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        android:id="@+id/txtReg"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.8"
+        android:layout_marginBottom="5dp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:text="or sign in with:"
+        android:textColor="#FFFFFF"
+        android:textSize="10dp"
+        android:id="@+id/orSignin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="2.5"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            android:src="@mipmap/ic_launcher_round"
+            android:id="@+id/social1"/>
+        <ImageButton
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher_round"
+            android:id="@+id/social2"/>
+        <ImageButton
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_marginRight="70dp"
+            android:id="@+id/social3"/>
+    </LinearLayout>
+
+</LinearLayout>
+

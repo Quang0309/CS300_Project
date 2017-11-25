@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.testfirebase.InfoActivity"
+    android:orientation="vertical">
+    <com.github.library.bubbleview.BubbleTextView
+        android:layout_marginTop="10dp"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="User Information"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#EFFBFB"
+        app:arrowWidth = '0dp'
+        app:bubbleColor = '#848484'
+        />
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:id="@+id/imgAvatar"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_avatar"/>
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <com.github.library.bubbleview.BubbleTextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Full Name"
+            android:textColor="#EFFBFB"
+            app:arrowWidth='0dp'
+            app:bubbleColor='#848484' />
+
+       <EditText
+           android:layout_marginLeft="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           android:paddingLeft="8dp"
+           android:background="@drawable/current_user_border"
+           android:id="@+id/txtName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <com.github.library.bubbleview.BubbleTextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Nick Name"
+            android:textColor="#EFFBFB"
+            app:arrowWidth='0dp'
+            app:bubbleColor='#848484' />
+
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="8dp"
+            android:background="@drawable/current_user_border"
+            android:id="@+id/txtNick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.github.library.bubbleview.BubbleTextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:text="Address"
+            android:textColor="#EFFBFB"
+            app:arrowWidth = '0dp'
+            app:bubbleColor = '#848484'
+            android:gravity="center_horizontal|center_vertical"/>
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/current_user_border"
+            android:paddingLeft="8dp"
+            android:id="@+id/txtAddress"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.github.library.bubbleview.BubbleTextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:text="Phone"
+            android:textColor="#EFFBFB"
+            app:arrowWidth = '0dp'
+            app:bubbleColor = '#848484'
+            android:gravity="center_horizontal|center_vertical"/>
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/current_user_border"
+            android:inputType="phone"
+            android:paddingLeft="8dp"
+            android:id="@+id/txtPhone"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <com.github.library.bubbleview.BubbleTextView
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:text="Birth Date"
+            android:textColor="#EFFBFB"
+            app:arrowWidth = '0dp'
+            app:bubbleColor = '#848484'
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/current_user_border"
+            android:inputType="date"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:id="@+id/txtDOB"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_done"
+
+            />
+    </RelativeLayout>
+</LinearLayout>
