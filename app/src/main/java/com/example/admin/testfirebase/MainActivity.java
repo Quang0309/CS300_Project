@@ -2,12 +2,15 @@ package com.example.admin.testfirebase;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +19,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,24 +33,19 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    /*DatabaseReference mRef;
-    Button btnSend;
-    EditText txtName, txtMail,txtDOB;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    ListView lvHistory;
-    ArrayList<Person> list;
-    PersonArrayAdapter adapter;
-    StorageReference sRef;
-    ImageView imgPer;
-    FirebaseUser user;
-    static int code = 1;*/
-    TabHost tabHost;
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
+
+
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Button btnCreateRoom;
@@ -60,24 +60,25 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv;
     private List<Room> rooms;
     private Firebase mRef;
+    private DatabaseReference uRef;
     private FirebaseAuth mAuth;
     static FirebaseUser currentUser;
     private RVAdapter adapter;
+    ActionBarDrawerToggle mToggle;
+    CircleImageView circle_avatar;
 
-    //ListView navigation_listview;
-    //ArrayAdapter<String> adapter;
+    String URL;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        init();
         rv = (RecyclerView) findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.navigation_bar);
         btnCreateRoom = (Button) findViewById(R.id.btn_create);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -90,19 +91,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        tabHost = (TabHost) findViewById(R.id.tabHost);
-        tabHost.setup();
-        TabHost.TabSpec tab1 = tabHost.newTabSpec("t1");
-        tab1.setContent(R.id.tab1);
-        tab1.setIndicator("", getResources().getDrawable(R.drawable.picture1));
-        tabHost.addTab(tab1);
 
-        TabHost.TabSpec tab2 = tabHost.newTabSpec("t2");
-        tab2.setContent(R.id.tab2);
-        tab2.setIndicator("", getResources().getDrawable(R.drawable.picture2));
-        tabHost.addTab(tab2);
 
         mRef = new Firebase("https://lobby-3b4a3.firebaseio.com/");
+
+        createSidebar();
+        loadAvatar();
         populateListRoom();
         loadUser();
 
@@ -245,24 +239,73 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void init()
+    {
+        mAuth = FirebaseAuth.getInstance();
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigation_bar);
+        uRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/user");
+    }
+    private void createSidebar() {
+        mToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        drawerLayout.setDrawerListener(this);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item))
+            return true;
+        return super.onOptionsItemSelected(item);
+    }
+    private void loadAvatar() {
+        dialog = ProgressDialog.show(MainActivity.this,"","Loading",true,false);
+        final FirebaseUser currentUser = mAuth.getCurrentUser(); // lay user trong authencation
+        if(currentUser!=null)
+        {
+            uRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+                @Override
+                public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                    for(com.google.firebase.database.DataSnapshot snapshot:dataSnapshot.getChildren()) { // xet tung thang user trong database
+                        Person person = snapshot.getValue(Person.class); // bo thang user do vao object person
+                        if (person.getUID().equals(currentUser.getUid()))  // neu thg user.getUID = cai userid lay trong authencation thi chinh la no
+                        {
+
+                            if (!person.getURL().equals(""))
+                            {
+                                URL = person.getURL();
+                                name = person.getName();
+                            }
+                            else
+                                circle_avatar.setImageResource(R.drawable.ic_avatar);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                dialog.dismiss();
+            }
+        }, 2000);
+
+    }
     private void loadUser() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         userId = currentUser.getUid();
     }
 
-    //init();
 
-    //loadHistory();
-
-
-       /* imgPer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, code);
-            }
-        });*/
 
 
     public void infor_onclick() {
@@ -312,6 +355,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        circle_avatar = (CircleImageView) findViewById(R.id.circle_avatar);
+        Toast.makeText(MainActivity.this,"nahhhh",Toast.LENGTH_LONG).show();
+        Glide.with(MainActivity.this).load(URL).into(circle_avatar);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
 
     }
 
