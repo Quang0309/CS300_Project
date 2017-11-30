@@ -31,7 +31,7 @@ public class PersonArrayAdapter extends ArrayAdapter<Person> {
         this.objects = objects;
     }
 
-    @NonNull
+  /*  @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
@@ -47,5 +47,5 @@ public class PersonArrayAdapter extends ArrayAdapter<Person> {
 
         txtGetDOB.setText( "DOB: "+per.getDOB());
         return convertView;
-    }
+    }*/
 }

@@ -1,15 +1,19 @@
 package com.example.admin.testfirebase;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSign;
     ProgressDialog dialog;
     TextView txtReg;
+    ImageView imgSee;
+    boolean isReadable = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,17 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email and Password can not be empty",
                             Toast.LENGTH_SHORT).show();
                 }
+
+            }
+        });
+        imgSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isReadable)
+                    txtPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                else
+                    txtPass.setTransformationMethod(null);
+                isReadable = !isReadable;
 
             }
         });
@@ -98,8 +115,13 @@ public class LoginActivity extends AppCompatActivity {
     private void init() {
         txtEmail = (EditText) findViewById(R.id.txtEmail);
         txtPass = (EditText) findViewById(R.id.txtPass);
-
+        imgSee = (ImageView) findViewById(R.id.imgSee);
         btnSign = (Button) findViewById(R.id.btnSign);
         txtReg = (TextView) findViewById(R.id.txtReg);
+    }
+
+    public void Onclick_HideKeyBoard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 }
