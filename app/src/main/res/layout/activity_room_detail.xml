@@ -25,13 +25,18 @@
         android:id="@+id/count"/>
     <ListView
         android:id="@+id/list_players"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:layout_width="match_parent">
     </ListView>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_join"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_leave"
+        android:text="Leave"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
