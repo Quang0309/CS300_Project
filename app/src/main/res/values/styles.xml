@@ -7,5 +7,34 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#81BEF7</item>
     </style>
+    <style  name="Text">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingLeft">18dp</item>
+        <item name="android:paddingBottom">18dp</item>
+    </style>
+    <style  name="Text.primary">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style  name="Text.primary.nopadding">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+    <style  name="Text.secondary">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style  name="Text.secondary.nopadding">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
 
 </resources>

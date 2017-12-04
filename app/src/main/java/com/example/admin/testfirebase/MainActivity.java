@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -339,17 +340,17 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Room newRoom = dataSnapshot.getValue(Room.class);
-                Iterator<Room> it = rooms.iterator();
-                while (it.hasNext()) {
+                int i = 0;
+                for (Room r:rooms) {
 
-                    if (it.next().getId().equals(newRoom.getId())) {
+                    if (r.getId().equals(newRoom.getId())) {
 
-                        it.remove();
-                        rooms.add(newRoom);
-                        adapter.notifyDataSetChanged();
-
+                        rooms.set(i,newRoom);
+                        break;
                     }
+                    i = i + 1;
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override

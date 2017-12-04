@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
+    android:layout_height="175dp"
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
+        android:id="@+id/rel_master"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:background="@color/iron"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/field_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+            android:scaleType="center"
+            android:src="@drawable/field" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:src="#55000000"
+            android:layout_alignBottom="@id/match_time"></ImageView>
 
         <TextView
             android:id="@+id/field_name"
+            style="@style/Text.primary.nopadding"
+            android:layout_above="@id/match_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/field_image"
+            android:paddingLeft="15dp"
+            android:paddingBottom="10dp"
             android:textSize="24sp"
-            android:gravity="center_vertical"/>
+            android:textColor="#ffffff"
+            tools:text="Field Name"/>
 
         <TextView
             android:id="@+id/match_time"
+            style="@style/Text.secondary.nopadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/field_name"
-            android:layout_toRightOf="@+id/field_image"
-            android:gravity="center_vertical"/>
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="#ffffff"
+            tools:text="Match Time"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
             android:id="@+id/match_id"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            tools:text="Match ID"/>
 
     </RelativeLayout>
 
