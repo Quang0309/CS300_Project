@@ -3,6 +3,9 @@
     <color name="colorPrimary">#6775c0</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="trans75GreenCyan">#4B58ffc1</color>
+    <color name="trans75DarkerGreenCyan">#4B8fccb6</color>
     <color name="iron">#D8D8D8</color>
+    <color name="opa75iron">#4BD8D8D8</color>
     <color name="nile_blue">#81BEF7</color>
 </resources>

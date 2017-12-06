@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     ActionBarDrawerToggle mToggle;
     CircleImageView circle_avatar;
 
-    String URL;
+    String URL = "";
     ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_bar);
         uRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/user");
+
     }
     private void createSidebar() {
         mToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
@@ -277,8 +280,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                                 URL = person.getURL();
                                 name = person.getName();
                             }
-                            else
-                                circle_avatar.setImageResource(R.drawable.ic_avatar);
+
                         }
                     }
                 }
@@ -337,7 +339,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Room newRoom = dataSnapshot.getValue(Room.class);
+                int i = 0;
+                for (Room r:rooms) {
 
+                    if (r.getId().equals(newRoom.getId())) {
+
+                        rooms.set(i,newRoom);
+                        break;
+                    }
+                    i = i + 1;
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -355,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             }
         });
-
     }
 
     @Override
@@ -367,7 +379,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     public void onDrawerOpened(View drawerView) {
         circle_avatar = (CircleImageView) findViewById(R.id.circle_avatar);
         Toast.makeText(MainActivity.this,"nahhhh",Toast.LENGTH_LONG).show();
-        Glide.with(MainActivity.this).load(URL).into(circle_avatar);
+        if (URL.equals(""))
+            circle_avatar.setImageResource(R.drawable.ic_avatar);
+        else
+            Glide.with(MainActivity.this).load(URL).into(circle_avatar);
     }
 
     @Override
