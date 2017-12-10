@@ -34,6 +34,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -267,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         final FirebaseUser currentUser = mAuth.getCurrentUser(); // lay user trong authencation
         if(currentUser!=null)
         {
+
             uRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
                 @Override
                 public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
@@ -274,6 +276,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                         Person person = snapshot.getValue(Person.class); // bo thang user do vao object person
                         if (person.getUID().equals(currentUser.getUid()))  // neu thg user.getUID = cai userid lay trong authencation thi chinh la no
                         {
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(person.getName()).build();
+                            currentUser.updateProfile(profileUpdates);
 
                             if (!person.getURL().equals(""))
                             {
