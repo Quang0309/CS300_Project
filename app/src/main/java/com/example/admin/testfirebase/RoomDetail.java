@@ -1,8 +1,7 @@
 package com.example.admin.testfirebase;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.utilities.Pair;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -20,9 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,8 +28,7 @@ public class RoomDetail extends AppCompatActivity {
     private Firebase mRefRoom;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> players;
-                                                                                                                                                                    private Person currentPerson;
-    private ArrayList<Pair<String,String>> pairs = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,37 +38,34 @@ public class RoomDetail extends AppCompatActivity {
         mRefRoom = new Firebase("https://lobby-3b4a3.firebaseio.com/");
         mAuth = FirebaseAuth.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        final Room room = (Room)getIntent().getSerializableExtra("room");
-        TextView fieldName = (TextView)findViewById(R.id.field_name);
-        TextView fieldAddress = (TextView)findViewById(R.id.field_address);
-        TextView matchDate = (TextView)findViewById(R.id.match_date);
-        TextView matchTime = (TextView)findViewById(R.id.match_time);
-        ListView lvPlayers = (ListView)findViewById(R.id.list_players);
+        String test = currentUser.getDisplayName();
+        final Room room = (Room) getIntent().getSerializableExtra("room");
+        TextView fieldName = (TextView) findViewById(R.id.field_name);
+        TextView fieldAddress = (TextView) findViewById(R.id.field_address);
+        TextView matchDate = (TextView) findViewById(R.id.match_date);
+        TextView matchTime = (TextView) findViewById(R.id.match_time);
+        ListView lvPlayers = (ListView) findViewById(R.id.list_players);
         final Button btnJoin = (Button) findViewById(R.id.btn_join);
         final Button btnLeave = (Button) findViewById(R.id.btn_leave);
         final Button btnBack = (Button) findViewById(R.id.btn_back);
-        final TextView count = (TextView)findViewById(R.id.count);
+        final TextView count = (TextView) findViewById(R.id.count);
         players = new ArrayList<>();
         final ArrayList<String> arrPlayers = new ArrayList<>();     // array id cua may thang trong room
-        for (int i = 0;i < room.getPlayers().length();i = i + 28) {
+        for (int i = 0; i < room.getPlayers().length(); i = i + 28) {
 
-            String tmp = room.getPlayers().substring(i,i + 28);
+            String tmp = room.getPlayers().substring(i, i + 28);
             arrPlayers.add(tmp);
         }
         mRefUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final Person p = dataSnapshot.getValue(Person.class);
-                for (String strPlayer:arrPlayers) {
+                for (String strPlayer : arrPlayers) {
 
                     if (strPlayer.equals(p.getUID())) {
 
                         players.add(p.getName());                   // array ten cua may thang trong room
                         break;
-                    }
-                    if (p.getUID().equals(currentUser.getUid())) {
-
-                        currentPerson = p;
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -84,7 +74,7 @@ public class RoomDetail extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         boolean notIn = true;
-                        for (String player:arrPlayers) {
+                        for (String player : arrPlayers) {
 
                             if (player.equals(currentUser.getUid())) {
 
@@ -96,7 +86,7 @@ public class RoomDetail extends AppCompatActivity {
                         if (notIn) {
 
                             arrPlayers.add(currentUser.getUid());
-                            players.add(currentPerson.getName());
+                            players.add(currentUser.getDisplayName());
                             adapter.notifyDataSetChanged();
                             count.setText(String.valueOf(players.size()) + "/10");
                         }
@@ -107,7 +97,7 @@ public class RoomDetail extends AppCompatActivity {
                     public void onClick(View view) {
                         int i = 0;
                         boolean out = true;
-                        for (String player:arrPlayers) {
+                        for (String player : arrPlayers) {
 
                             if (player.equals(currentUser.getUid())) {
 
@@ -117,7 +107,7 @@ public class RoomDetail extends AppCompatActivity {
                                 while (it.hasNext()) {
 
                                     String name = it.next();
-                                    if (name.equals(currentPerson.getName())) {
+                                    if (name.equals(currentUser.getDisplayName())) {
 
                                         it.remove();
                                         break;
@@ -139,7 +129,7 @@ public class RoomDetail extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String strPlayer = new String();
-                        for (String player:arrPlayers) {
+                        for (String player : arrPlayers) {
 
                             strPlayer = strPlayer + player;
                         }
