@@ -88,6 +88,11 @@ public class InfoActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(txtName.getText().toString().equals("")||txtNick.getText().toString().equals("")||txtAddress.getText().toString().equals("")||txtDOB.getText().toString().equals("")||txtPhone.getText().toString().equals(""))
+                {
+                    Toast.makeText(InfoActivity.this,"The information can not be empty",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(URL.equals("")&&currentPerson!=null)
                 {
                     URL = currentPerson.getURL();
@@ -245,6 +250,11 @@ public class InfoActivity extends AppCompatActivity {
     public void Onclick_HideKeyBoard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }
 

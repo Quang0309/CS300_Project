@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private int mYear, mMonth, mDay, mHour, mMinute;
     private int roomId;
     private String name;
+    private String username;
     private String address;
     private String date;
     private String time;
@@ -242,6 +245,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
     }
 
+
+
+
     private void init()
     {
         mAuth = FirebaseAuth.getInstance();
@@ -279,15 +285,17 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(person.getName()).build();
                             currentUser.updateProfile(profileUpdates);
+                            username = person.getName();
 
                             if (!person.getURL().equals(""))
                             {
                                 URL = person.getURL();
-                                name = person.getName();
-                            }
 
+                            }
+                            break;
                         }
                     }
+                    onRetrieveDataSuccuss(username);
                 }
 
                 @Override
@@ -295,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 }
             });
+
         }
 
         Handler handler = new Handler();
@@ -303,9 +312,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 dialog.dismiss();
             }
-        }, 2000);
+        }, 4000);
 
     }
+
+    private void onRetrieveDataSuccuss(String username) {
+        if(username==null)
+        {
+            Intent i = new Intent(MainActivity.this,InfoActivity.class);
+            startActivity(i);
+        }
+    }
+
     private void loadUser() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
