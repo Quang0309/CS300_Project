@@ -40,6 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
                     dialog.dismiss();
                     return;
                 }
+                if (txtPass.getText().toString().length()<5||txtPass2.getText().toString().length()<5)
+                {
+                    Toast.makeText(getApplicationContext(), "Password must contain at least 5 characters",
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    return;
+                }
                 if (!txtPass.getText().toString().equals(txtPass2.getText().toString()))
                 {
                     Toast.makeText(getApplicationContext(), "Retype password is not correct",
