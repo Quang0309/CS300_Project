@@ -38,6 +38,10 @@
         <activity
             android:name=".RoomDetail"
             android:screenOrientation="portrait" />
+        <activity android:name=".ListDistrictActivity" />
+        <activity android:name=".ListFieldActivity" />
+        <activity android:name=".FieldDetailActivity" />
+        <activity android:name=".UploadFieldActivity"></activity>
     </application>
 
 </manifest>

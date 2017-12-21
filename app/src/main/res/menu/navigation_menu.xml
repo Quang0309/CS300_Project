@@ -8,4 +8,12 @@
         android:title="Log out"
         android:icon="@drawable/ic_power_settings_new_black_24dp"
         />
+    <item android:id="@+id/btnListField"
+        android:title="Soccer fields"
+        android:icon="@drawable/ic_power_settings_new_black_24dp"
+        />
+    <item android:id="@+id/btnUploadField"
+        android:title="Upload a field"
+        android:icon="@drawable/ic_power_settings_new_black_24dp"
+        />
 </menu>
