@@ -95,6 +95,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     infor_onclick();
                 } else if (item.getItemId() == R.id.btnLogout)
                     logout_onclick();
+                else if (item.getItemId() == R.id.btnUploadField)
+                {
+                    uploadField_onclick();
+                }
+                else if (item.getItemId() == R.id.btnListField)
+                {
+                    listField_onclick();
+                }
                 return true;
             }
         });
@@ -347,6 +355,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent1);
         finish();
+    }
+
+    private void uploadField_onclick() {
+        Intent intent=new Intent(MainActivity.this,UploadFieldActivity.class);
+        intent.putExtra("UserID",currentUser.getUid());
+        startActivity(intent);
+    }
+
+    public void listField_onclick() {
+        Intent intent = new Intent(MainActivity.this,ListDistrictActivity.class);
+        intent.putExtra("UserID",currentUser.getUid());
+        startActivity(intent);
     }
 
     private void populateListRoom() {
