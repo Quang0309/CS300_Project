@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private List<Room> rooms;
     private Firebase mRef;
     private DatabaseReference uRef;
+    private DatabaseReference mRefMessage;
     private FirebaseAuth mAuth;
     static FirebaseUser currentUser;
     private RVAdapter adapter;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             }
         });
 
-
+        mRefMessage = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/message");
         mRef = new Firebase("https://lobby-3b4a3.firebaseio.com/");
 
         createSidebar();
@@ -207,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                                 if (flag[0]) {
                                     Room r = new Room(roomId, name, address, date, time, playerArr);
                                     mRef.child(r.getId()).setValue(r);
+                                    mRefMessage.child(r.getId()).setValue(0);
                                     flag[0] = false;
                                 }
                             }
@@ -334,14 +336,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
     public void infor_onclick() {
-        Toast.makeText(getApplicationContext(), "vo dc ham intent", Toast.LENGTH_SHORT).show();
+
         Intent intent = new Intent(MainActivity.this, InfoActivity.class);
         startActivity(intent);
     }
 
     public void logout_onclick() {
         FirebaseAuth.getInstance().signOut();
-        Toast.makeText(getApplicationContext(), "vo dc ham intent", Toast.LENGTH_SHORT).show();
+
         Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent1);
         finish();
@@ -401,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     @Override
     public void onDrawerOpened(View drawerView) {
         circle_avatar = (CircleImageView) findViewById(R.id.circle_avatar);
-        Toast.makeText(MainActivity.this,"nahhhh",Toast.LENGTH_LONG).show();
+
         if (URL.equals(""))
             circle_avatar.setImageResource(R.drawable.ic_avatar);
         else

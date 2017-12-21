@@ -1,11 +1,14 @@
 package com.example.admin.testfirebase;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,29 +20,43 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static com.example.admin.testfirebase.R.id.tabHost;
 
 public class RoomDetail extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference mRefUser;
+    private DatabaseReference mRefMessage;
     private Firebase mRefRoom;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> players;
 
+    FloatingActionButton btnFloat;
+    DatabaseReference messRef;
+    EditText txtMess;
+    String name;
+    ListView listview;
+    MessAdapter Adapter;
+    ArrayList<Message> data;
+    TabHost tabHost;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room_detail);
-
+        setContentView(R.layout.tabhost);
+        mRefMessage = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/message");
         mRefUser = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/user");
         mRefRoom = new Firebase("https://lobby-3b4a3.firebaseio.com/");
         mAuth = FirebaseAuth.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String test = currentUser.getDisplayName();
         final Room room = (Room) getIntent().getSerializableExtra("room");
+        id = room.getId();
         TextView fieldName = (TextView) findViewById(R.id.field_name);
         TextView fieldAddress = (TextView) findViewById(R.id.field_address);
         TextView matchDate = (TextView) findViewById(R.id.match_date);
@@ -49,6 +66,7 @@ public class RoomDetail extends AppCompatActivity {
         final Button btnLeave = (Button) findViewById(R.id.btn_leave);
         final Button btnBack = (Button) findViewById(R.id.btn_back);
         final TextView count = (TextView) findViewById(R.id.count);
+        init();
         players = new ArrayList<>();
         final ArrayList<String> arrPlayers = new ArrayList<>();     // array id cua may thang trong room
         for (int i = 0; i < room.getPlayers().length(); i = i + 28) {
@@ -169,8 +187,69 @@ public class RoomDetail extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, players);
         lvPlayers.setAdapter(adapter);
+
+        displayChatMessage();
+        btnFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String input = txtMess.getText().toString();
+                if( input.equals(""))
+                    return;
+                else
+                {
+                    com.example.admin.testfirebase.Message mess = new com.example.admin.testfirebase.Message(input,name);
+                    messRef.push().setValue(mess);
+                    Adapter.add(mess);
+                    txtMess.setText("");
+
+                }
+            }
+        });
     }
 
+    private void init() {
+        tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost.setup();
+        TabHost.TabSpec tab1 = tabHost.newTabSpec("t1");
+        tab1.setContent(R.id.tab1);
+        tab1.setIndicator("",getResources().getDrawable(R.drawable.picture1));
+        tabHost.addTab(tab1);
+
+        TabHost.TabSpec tab2 = tabHost.newTabSpec("t2");
+        tab2.setContent(R.id.tab2);
+        tab2.setIndicator("",getResources().getDrawable(R.drawable.ic_message_black_24dp));
+        tabHost.addTab(tab2);
+
+        btnFloat = (FloatingActionButton) findViewById(R.id.btnFloat);
+        listview = (ListView) findViewById(R.id.listMess);
+        txtMess = (EditText) findViewById(R.id.txtMessage);
+        messRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/message/"+ id);
+        data = new ArrayList<>();
+        Adapter = new MessAdapter(RoomDetail.this,R.layout.layout_message,data);
+        name = currentUser.getDisplayName();
+        listview.setAdapter(Adapter);
+    }
+
+    private void displayChatMessage() {
+        messRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                data.clear();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren())
+                {
+                    com.example.admin.testfirebase.Message mess = snapshot.getValue(com.example.admin.testfirebase.Message.class);
+                    data.add(mess);
+                }
+                Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
