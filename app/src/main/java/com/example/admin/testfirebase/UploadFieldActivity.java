@@ -2,6 +2,7 @@ package com.example.admin.testfirebase;
 
 import android.*;
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -197,6 +199,7 @@ public class UploadFieldActivity extends AppCompatActivity {
 
                         FieldMenu field=new FieldMenu(name,address,downloadURI.toString(),rating);
                         mRef2.push().setValue(field);
+                        Toast.makeText(UploadFieldActivity.this,"Add field successfully",Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -293,6 +296,9 @@ public class UploadFieldActivity extends AppCompatActivity {
 
     }
 
-
+    public void Onclick_HideKeyBoard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+    }
 }
 
