@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/a"
+        android:checkableBehavior="single">
      <item android:id="@+id/btnInfo"
          android:title="My Account"
          android:icon="@drawable/ic_account_circle_black_24dp"
          />
+    </group>
+    <group android:id="@+id/b"
+        android:checkableBehavior="single">
+    <item android:id="@+id/btnListField"
+        android:title="Soccer fields"
+        android:icon="@drawable/iconball"
+        />
+    <item android:id="@+id/btnUploadField"
+        android:title="Upload a field"
+        android:icon="@drawable/ic_create_black_24dp"
+        />
+    </group>
+    <group android:id="@+id/c"
+        android:checkableBehavior="single">
     <item android:id="@+id/btnLogout"
         android:title="Log out"
         android:icon="@drawable/ic_power_settings_new_black_24dp"
         />
-    <item android:id="@+id/btnListField"
-        android:title="Soccer fields"
-        android:icon="@drawable/ic_power_settings_new_black_24dp"
-        />
-    <item android:id="@+id/btnUploadField"
-        android:title="Upload a field"
-        android:icon="@drawable/ic_power_settings_new_black_24dp"
-        />
+    </group>
 </menu>

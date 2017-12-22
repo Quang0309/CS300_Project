@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:onClick="Onclick_HideKeyBoard">
 
     <ImageView
         android:id="@+id/image_view_field_upload"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:src="@drawable/ic_crop_original_black_48dp"/>
     <EditText
         android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
