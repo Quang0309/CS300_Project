@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6775c0</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="trans75GreenCyan">#4B58ffc1</color>
-    <color name="trans75DarkerGreenCyan">#4B8fccb6</color>
+    <color name="colorPrimary">#57C2FA</color>
+    <color name="colorPrimaryDark">#2B81AD</color>
+    <color name="colorAccent">#EFEB72</color>
+    <color name="colorAccent2">#E4717A</color>
+    <color name="opa25PrimaryDark">#BB2B86AD</color>
+    <color name="opa75PrimaryDark">#2D2B86AD</color>
     <color name="iron">#D8D8D8</color>
-    <color name="opa75iron">#4BD8D8D8</color>
+    <color name="opa50iron">#32D8D8D8</color>
     <color name="nile_blue">#81BEF7</color>
 </resources>

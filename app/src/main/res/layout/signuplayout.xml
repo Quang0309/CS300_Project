@@ -5,77 +5,89 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b3b3b3"
+    android:background="@color/opa25PrimaryDark"
     tools:context="com.example.admin.testfirebase.RegisterActivity">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1.6"
-        android:id="@+id/txtEmail"
-        android:hint="example@gmail.com"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="15dp"
-        android:paddingLeft="28dp"
-        android:background="@drawable/roundedittext"/>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1.6"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/txtPass"
-        android:background="@drawable/roundedittext"
-        android:hint="password"
-        android:paddingLeft="28dp"
-        android:inputType="textPassword"/>
+        android:layout_height="250dp"
+        android:orientation="vertical">
 
-    <EditText
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:id="@+id/txtEmail"
+            android:hint="Email"
+            android:textStyle="bold"
+            android:textColorHint="#ffffff"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="15dp"
+            android:paddingLeft="28dp"
+            android:background="@drawable/squarewhiteborderedittext"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:textColorHint="#ffffff"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/txtPass"
+            android:background="@drawable/squarewhiteborderedittext"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:hint="Password"
+            android:paddingLeft="28dp"
+            android:inputType="textPassword"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:textColorHint="#ffffff"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/txtPass2"
+            android:background="@drawable/squarewhiteborderedittext"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:hint="Re-enter password"
+            android:paddingLeft="28dp"
+            android:inputType="textPassword"/>
+
+    </LinearLayout>
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1.6"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/txtPass2"
-        android:background="@drawable/roundedittext"
-        android:hint="re-enter password"
-        android:paddingLeft="28dp"
-        android:inputType="textPassword"/>
-
+        android:layout_height="65dp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:text="CREATE MY ACCOUNT"
+        android:textStyle="bold"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/filledsquare"
+        android:backgroundTint="#77FFFFFF"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:id="@+id/btnReg"/>
 
 
     <RadioButton
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:text="I have read and agree to the Terms of Use and Privacy Policy."
         android:textSize="11dp"
-        android:buttonTint="#58ffc1"
+        android:textColor="#ffffff"
+        android:buttonTint="@color/colorAccent"
         android:id="@+id/btnCheck"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="2"
-        android:textAlignment="center"
-        android:gravity="center_vertical"
-        android:text="create my account"
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="55dp"
-        android:layout_marginLeft="65dp"
-        android:layout_marginRight="65dp"
-        android:background="@drawable/signupbutton"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:id="@+id/btnReg"/>
-
 
 </LinearLayout>
