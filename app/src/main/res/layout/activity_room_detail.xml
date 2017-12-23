@@ -1,94 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            card_view:cardElevation="4dp"
+            card_view:cardUseCompatPadding="true"
+            android:backgroundTint="@color/iron">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/field"                />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="105dp"
+                    android:src="#88000000"
+                    android:layout_alignBottom="@id/count"></ImageView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.primary.nopadding"
+                    android:textColor="#FFFFFF"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="3dp"
+                    android:textSize="24sp"
+                    android:layout_above="@+id/field_address"
+                    android:id="@+id/field_name"
+                    android:textStyle="bold"
+                    tools:text="Field Name"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.secondary.nopadding"
+                    android:textColor="#FFFFFF"
+                    android:paddingLeft="15dp"
+                    android:id="@+id/field_address"
+                    android:layout_above="@id/match_date"
+                    android:textStyle="italic"
+                    tools:text="Field Address"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.secondary.nopadding"
+                    android:textColor="#FFFFFF"
+                    android:paddingLeft="15dp"
+                    android:id="@+id/match_date"
+                    android:layout_above="@id/count"
+                    android:textStyle="italic"
+                    tools:text="Match Date"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.secondary.nopadding"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginLeft="2dp"
+                    android:paddingLeft="5dp"
+                    android:id="@+id/match_time"
+                    android:layout_toRightOf="@id/match_date"
+                    android:layout_above="@id/count"
+                    android:textStyle="italic"
+                    tools:text="Match Time"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.secondary.nopadding"
+                    android:textColor="#FFFFFF"
+                    android:layout_alignParentBottom="true"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/count"
+                    android:textStyle="italic"
+                    tools:text="Count"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <ListView
+            android:id="@+id/list_players"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent">
+        </ListView>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Text.secondary.nopadding"
-                android:padding="3dp"
-                android:id="@+id/field_name"
-                tools:text="Field Name"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Text.secondary.nopadding"
-                android:padding="3dp"
-                android:id="@+id/field_address"
-                tools:text="Field Address"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Text.secondary.nopadding"
-                android:padding="3dp"
-                android:id="@+id/match_date"
-                tools:text="Match Date"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Text.secondary.nopadding"
-                android:padding="3dp"
-                android:id="@+id/match_time"
-                tools:text="Match Time"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Text.secondary.nopadding"
-                android:padding="3dp"
-                android:id="@+id/count"
-                tools:text="Count"/>
+            <Button
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_margin="8dp"
+                android:id="@+id/btn_join"
+                android:backgroundTint="#00cc58"
+                android:src="@drawable/ic_join"/>
+            <Button
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:id="@+id/btn_leave"
+                android:backgroundTint="#cc1000"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_leave"/>
+            <Button
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:id="@+id/btn_back"
+                android:layout_margin="8dp"
+                android:backgroundTint="#D9CB0B"
+                android:src="@drawable/ic_decline_nobg"/>
+            <!---->
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <ListView
-        android:id="@+id/list_players"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="match_parent">
-    </ListView>
-
-    <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="8dp"
-            android:id="@+id/btn_join"
-            android:backgroundTint="#00cc58"
-            android:src="@drawable/ic_join"/>
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/btn_leave"
-            android:backgroundTint="#cc1000"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_leave"/>
-        <Button
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/btn_back"
-            android:layout_margin="8dp"
-            android:backgroundTint="#D9CB0B"
-            android:src="@drawable/ic_decline_nobg"/>
-
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>
+
+

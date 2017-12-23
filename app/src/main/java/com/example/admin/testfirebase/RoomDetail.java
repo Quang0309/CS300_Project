@@ -69,7 +69,7 @@ public class RoomDetail extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
-                count.setText(String.valueOf(players.size()) + "/10");
+                count.setText(String.valueOf(players.size()) + "/10" + " players");
                 btnJoin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -167,7 +167,7 @@ public class RoomDetail extends AppCompatActivity {
         matchTime.setText(room.getTime());
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, players);
+                R.layout.roomdetailitem, players);
         lvPlayers.setAdapter(adapter);
     }
 
