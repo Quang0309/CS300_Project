@@ -1,63 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-
+    android:id="@+id/rel_detail">
     <ImageView
-        android:id="@+id/image_view_field"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
-    <RatingBar
-        android:id="@+id/rating_bar_info"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_view_field"
-        android:layout_gravity="center_horizontal"
-        android:stepSize="0.01"/>
-
+        android:layout_height="match_parent"
+        android:id="@+id/image_view_field"
+        android:layout_above="@+id/divCenter"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_view_field"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/image_button_google_maps"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/mapsicon"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/text_view_field_name_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center" />
+        android:orientation="horizontal"
+        android:layout_above="@+id/divCenter">
 
-            <TextView
-                android:id="@+id/text_view_field_address_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <TextView
+            style="@style/Text.primary"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.25"
+            android:id="@+id/text_view_field_name_detail"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            />
+
+        <RatingBar
+            android:id="@+id/rating_bar_info"
+            style="@android:style/Widget.Holo.Light.RatingBar.Small"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="16dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:numStars="5"
+            android:transformPivotX="25sp"
+            android:stepSize="0.01"
+            />
+        <View
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8" />
 
     </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/divCenter"
+        android:layout_centerVertical="true"
+        />
+
+    <ImageButton
+        android:id="@+id/image_button_google_maps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mapsicon"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="28dp"
+        android:layout_alignRight="@+id/divCenter"
+        />
+
     <Button
         android:id="@+id/button_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="228dp"
+        android:layout_alignRight="@+id/divCenter"
         android:text="Rating"
+        android:backgroundTint="@color/trans75GreenCyan"
         android:textAllCaps="false"
-        android:textColor="#ff80b3"
-        android:background="@drawable/edittextborder"/>
-</LinearLayout>
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        style="@style/Text.secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view_field_address_detail"
+        android:layout_below="@+id/divCenter"
+        android:padding="15dp"
+        tools:text="Address"/>
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hor_img"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/text_view_field_address_detail"
+        android:fillViewport="true"
+        android:background="#cbcbcb">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/ImageHor">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/field"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/ImageHor">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/football"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ImageHor">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/football"/>
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>
