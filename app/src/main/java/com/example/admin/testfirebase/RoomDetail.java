@@ -23,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 import static com.example.admin.testfirebase.R.id.tabHost;
@@ -81,8 +83,16 @@ public class RoomDetail extends AppCompatActivity {
                 for (String strPlayer : arrPlayers) {
 
                     if (strPlayer.equals(p.getUID())) {
+                        Calendar calendar = Calendar.getInstance();
+                        int curyear = calendar.get(Calendar.YEAR);
 
-                        players.add(p.getName());                   // array ten cua may thang trong room
+
+                        int year = Integer.parseInt(p.getDOB().substring(6,10));
+
+                        int age = curyear - year;
+                        String information;
+                        information = p.getName() + ", Pos: " + p.getNick() + ", Age: "+age;
+                        players.add(information);                   // array ten cua may thang trong room
                         break;
                     }
                 }
@@ -125,7 +135,7 @@ public class RoomDetail extends AppCompatActivity {
                                 while (it.hasNext()) {
 
                                     String name = it.next();
-                                    if (name.equals(currentUser.getDisplayName())) {
+                                    if (name.contains(currentUser.getDisplayName())) {
 
                                         it.remove();
                                         break;
