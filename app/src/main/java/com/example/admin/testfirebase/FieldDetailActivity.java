@@ -177,7 +177,7 @@ public class FieldDetailActivity extends AppCompatActivity {
                                 // userID này chưa rate cho cái field hiện tại
                                 // push userID cùng với rating vào cái field
                                 if (!isChanged) {
-                                    mRating2.push().setValue(ratingBarDialog.getRating()); //test
+                                    mRating2.child(UserID).setValue(ratingBarDialog.getRating()); //test
                                     avgRating += ratingBarDialog.getRating();
                                     ++countUser;
                                 }
