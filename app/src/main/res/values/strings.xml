@@ -16,4 +16,7 @@
     </string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="facebook_app_id">1542825342475714</string>
+    <string name="fb_login_protocol_scheme">fb1542825342475714</string>
+
 </resources>
