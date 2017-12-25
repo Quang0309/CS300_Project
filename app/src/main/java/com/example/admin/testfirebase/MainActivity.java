@@ -29,6 +29,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -351,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     public void logout_onclick() {
         FirebaseAuth.getInstance().signOut();
-
+        LoginManager.getInstance().logOut();
         Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent1);
         finish();
