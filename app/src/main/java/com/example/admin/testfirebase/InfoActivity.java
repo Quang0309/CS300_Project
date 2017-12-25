@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -51,8 +52,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class InfoActivity extends AppCompatActivity {
-    EditText txtName,txtAddress,txtPhone,txtNick;
-    TextView txtDOB;
+    EditText txtName,txtAddress,txtPhone;
+    TextView txtDOB,txtNick;
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
     DatabaseReference mRef;
@@ -114,6 +115,73 @@ public class InfoActivity extends AppCompatActivity {
                 startActivityForResult(i, code);
 
             }
+        });
+        txtNick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(InfoActivity.this);
+                dialog.setContentView(R.layout.dialog_position);
+                dialog.setTitle("Title...");
+
+                Button btnST =  dialog.findViewById(R.id.btnST);
+                Button btnLM = (Button) dialog.findViewById(R.id.btnLM);
+                Button btnCM = (Button) dialog.findViewById(R.id.btnCM);
+                Button btnRM = (Button) dialog.findViewById(R.id.btnRM);
+                Button btnCB1 = (Button)dialog.findViewById(R.id.btnCB1);
+                Button btnCB2 = (Button)dialog.findViewById(R.id.btnCB2);
+                Button btnGK = (Button) dialog.findViewById(R.id.btnGK);
+                btnST.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Striker");
+                        dialog.dismiss();
+                    }
+                });
+                btnRM.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Right Midfield");
+                        dialog.dismiss();
+                    }
+                });
+                btnCM.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Center Midfield");
+                        dialog.dismiss();
+                    }
+                });
+                btnLM.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Left Midfield");
+                        dialog.dismiss();
+                    }
+                });
+                btnCB1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Center Back");
+                        dialog.dismiss();
+                    }
+                });
+                btnCB2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Center Back");
+                        dialog.dismiss();
+                    }
+                });
+                btnGK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtNick.setText("Goal Keeper");
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+
         });
     }
 
@@ -185,7 +253,7 @@ public class InfoActivity extends AppCompatActivity {
         btnSend = (FloatingActionButton) findViewById(R.id.btnSend);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        txtNick = (EditText) findViewById(R.id.txtNick);
+        txtNick = (TextView) findViewById(R.id.txtNick);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         sRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
