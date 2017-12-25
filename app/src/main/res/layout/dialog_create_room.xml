@@ -14,20 +14,18 @@
         android:padding="10dp"
         android:background="@color/opa50iron">
 
-        <EditText
-            android:id="@+id/et_field_name"
+        <Spinner
+            android:id="@+id/spinner_district"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:hint="FieldName"
             android:textSize="13sp" />
 
-        <EditText
-            android:id="@+id/et_field_address"
+        <Spinner
+            android:id="@+id/spinner_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:hint="Address"
             android:textSize="13sp" />
 
 
