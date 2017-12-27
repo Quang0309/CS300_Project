@@ -99,42 +99,56 @@
 
         <ListView
             android:id="@+id/list_players"
-            android:layout_height="200dp"
+            android:layout_height="280dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_width="match_parent">
         </ListView>
 
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="100dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginTop="24dp"
+            android:layout_gravity="bottom">
 
             <Button
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_margin="8dp"
+                style="?android:attr/buttonBarPositiveButtonStyle"
                 android:id="@+id/btn_join"
-                android:backgroundTint="#00cc58"
-                android:src="@drawable/ic_join"/>
-            <Button
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:id="@+id/btn_leave"
-                android:backgroundTint="#cc1000"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_leave"/>
-            <Button
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:id="@+id/btn_back"
-                android:layout_margin="8dp"
-                android:backgroundTint="#D9CB0B"
-                android:src="@drawable/ic_decline_nobg"/>
-            <!---->
+                android:padding="8dp"
+                android:layout_width="88dp"
+                android:layout_height="36dp"
+                android:backgroundTint="#00ffffff"
+                android:text="Join"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_toLeftOf="@id/btn_leave"/>
 
-        </LinearLayout>
+            <Button
+                style="?android:attr/buttonBarPositiveButtonStyle"
+                android:id="@+id/btn_leave"
+                android:padding="8dp"
+                android:layout_width="88dp"
+                android:layout_height="36dp"
+                android:backgroundTint="#00ffffff"
+                android:text="Leave"
+                android:textSize="14sp"
+                android:textColor="@color/colorAccent2"
+                android:layout_toLeftOf="@id/btn_back"/>
+
+            <Button
+                style="?android:attr/buttonBarPositiveButtonStyle"
+                android:id="@+id/btn_back"
+                android:padding="8dp"
+                android:layout_width="88dp"
+                android:layout_height="36dp"
+                android:backgroundTint="#00ffffff"
+                android:text="Back"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>
