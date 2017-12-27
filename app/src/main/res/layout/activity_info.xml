@@ -8,6 +8,7 @@
     android:orientation="vertical"
     >
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -26,7 +27,7 @@
         app:bubbleColor = '#848484'
         />
     <ImageView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_width="180dp"
         android:layout_height="140dp"
         android:id="@+id/imgAvatar"
@@ -45,7 +46,7 @@
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Full Name"
+            android:text="Name"
             android:textColor="#EFFBFB"
             app:arrowWidth='0dp'
             app:bubbleColor='#848484' />
@@ -185,7 +186,7 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_done"
-
+            android:layout_marginTop="10dp"
             />
     </RelativeLayout>
     </LinearLayout>

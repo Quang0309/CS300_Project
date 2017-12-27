@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 dialog.dismiss();
             }
-        }, 4000);
+        }, 4000); // 4s
 
     }
 
