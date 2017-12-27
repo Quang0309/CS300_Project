@@ -35,7 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="105dp"
                     android:src="#88000000"
-                    android:layout_alignBottom="@id/count"></ImageView>
+                    android:layout_alignBottom="@id/count"
+                    android:id="@+id/imageView"></ImageView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -106,7 +107,7 @@
         </ListView>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:orientation="horizontal"
             android:layout_gravity="center">
@@ -132,6 +133,18 @@
                 android:layout_margin="8dp"
                 android:backgroundTint="#D9CB0B"
                 android:src="@drawable/ic_decline_nobg"/>
+            <Button
+                android:id="@+id/btn_alarm_on"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:text="Alarm On"
+                android:textSize="10sp"/>
+            <Button
+                android:id="@+id/btn_alarm_off"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:text="Alarm off"
+                android:textSize="10sp"/>
             <!---->
 
         </LinearLayout>

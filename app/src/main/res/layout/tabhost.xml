@@ -37,8 +37,6 @@
                     android:orientation="vertical">
                     <include layout="@layout/activity_chat_box"/>
                 </LinearLayout>
-
-
             </FrameLayout>
         </LinearLayout>
     </TabHost>
