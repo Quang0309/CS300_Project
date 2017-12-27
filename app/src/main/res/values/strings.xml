@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestFireBase</string>
+    <string name="app_name">APCSoccer</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -16,4 +16,7 @@
     </string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="facebook_app_id">1542825342475714</string>
+    <string name="fb_login_protocol_scheme">fb1542825342475714</string>
+
 </resources>

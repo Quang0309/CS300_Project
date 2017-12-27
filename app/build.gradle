@@ -41,6 +41,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
     compile "com.android.support:support-dynamic-animation:26.1.0"
+    implementation 'com.facebook.android:facebook-login:[4,5)'
 }
 apply plugin: 'com.google.gms.google-services'
 configurations.all {

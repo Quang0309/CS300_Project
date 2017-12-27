@@ -19,16 +19,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private String playerArr;
     private RecyclerView rv;
     private List<Room> rooms;
-    private Firebase mRef;
+    private Firebase mRef,mRef2,mRefField;
     private DatabaseReference uRef;
     private DatabaseReference mRefMessage;
     private FirebaseAuth mAuth;
@@ -73,6 +77,13 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private RVAdapter adapter;
     ActionBarDrawerToggle mToggle;
     CircleImageView circle_avatar;
+    ArrayList<String> arrayList,arrayListFieldName,getArrayListFielAddress;
+    ArrayAdapter<String> arrayAdapter,arrayAdapter2;
+    ListFieldMenuAdapter fieldAdapter;
+    String district;
+    com.firebase.client.ValueEventListener mVe2,mVeField;
+    int position_of_field_in_array;
+
 
     String URL = "";
     ProgressDialog dialog;
@@ -124,12 +135,84 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 dialog.setTitle("Title...");
 
 
-                final EditText etFieldName = (EditText) dialog.findViewById(R.id.et_field_name);
-                final EditText etAddress = (EditText) dialog.findViewById(R.id.et_field_address);
+                final Spinner spinnerDistrict = (Spinner) dialog.findViewById(R.id.spinner_district);
+                final Spinner spinnerField = (Spinner) dialog.findViewById(R.id.spinner_field);
                 final EditText etDate = (EditText) dialog.findViewById(R.id.et_date);
                 final EditText etTime = (EditText) dialog.findViewById(R.id.et_time);
                 Button btnCreateDialog = (Button) dialog.findViewById(R.id.btn_create_dialog);
                 Button btnCancelDialog = (Button) dialog.findViewById(R.id.btn_cancel_dialog);
+
+                mRef2=new Firebase("https://testmap-60706.firebaseio.com/");
+                mVe2=new  com.firebase.client.ValueEventListener() {
+                    @Override
+                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                        arrayList = new ArrayList<>();
+                        for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            arrayList.add(snapshot.getKey().toString());
+                        }
+                        arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, arrayList);
+                        spinnerDistrict.setAdapter(arrayAdapter);
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                };
+                mRef2.addValueEventListener(mVe2);
+                spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
+                        district = parent.getItemAtPosition(position).toString();
+                        mRefField=new Firebase("https://testmap-60706.firebaseio.com/").child(district);
+                        mVeField=new com.firebase.client.ValueEventListener() {
+                            @Override
+                            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                                arrayListFieldName=new ArrayList<>();
+                                getArrayListFielAddress=new ArrayList<>();
+                                for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    FieldMenu field=snapshot.getValue(FieldMenu.class);
+                                    if (field!=null) {
+                                        arrayListFieldName.add(field.getName().toString());
+                                        getArrayListFielAddress.add(field.getAddress().toString());
+                                    }
+                                }
+                                //fieldAdapter.clear();
+                                //fieldAdapter.addAll(arrayListField);
+                                //spinnerField.setAdapter(fieldAdapter);
+                                arrayAdapter2=new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, arrayListFieldName);
+                                spinnerField.setAdapter(arrayAdapter2);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        };
+                        mRefField.addValueEventListener(mVeField);
+                        mRefField.removeEventListener(mVeField);
+                        spinnerField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, final int position, long id) {
+                               position_of_field_in_array = position;
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+
 
                 etDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,8 +277,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     @Override
                     public void onClick(View view) {
 
-                        name = etFieldName.getText().toString();
-                        address = etAddress.getText().toString();
+                        name = arrayListFieldName.get(position_of_field_in_array);
+                        address =getArrayListFielAddress.get(position_of_field_in_array);
                         date = etDate.getText().toString();
                         time = etTime.getText().toString();
                         playerArr = userId;
@@ -264,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_bar);
         uRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://testfirebase-27f0c.firebaseio.com/user");
-
+        fieldAdapter=new ListFieldMenuAdapter(this);
     }
     private void createSidebar() {
         mToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
@@ -322,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 dialog.dismiss();
             }
-        }, 4000);
+        }, 4000); // 4s
 
     }
 
@@ -351,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     public void logout_onclick() {
         FirebaseAuth.getInstance().signOut();
-
+        LoginManager.getInstance().logOut();
         Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent1);
         finish();
