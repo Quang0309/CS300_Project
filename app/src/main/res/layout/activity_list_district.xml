@@ -9,9 +9,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_view_district"
-        android:background="@drawable/football"
-        >
+        android:id="@+id/list_view_district">
 
     </ListView>
 

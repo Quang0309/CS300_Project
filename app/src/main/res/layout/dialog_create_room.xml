@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
-    android:layout_height="280dp"
+    android:layout_height="285dp"
     android:padding="5dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="FieldName"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/et_field_address"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="Address"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
 
         <EditText
@@ -38,7 +38,7 @@
             android:layout_marginTop="5dp"
             android:focusable="false"
             android:hint="Date"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/et_time"
@@ -47,32 +47,38 @@
             android:layout_marginTop="5dp"
             android:focusable="false"
             android:hint="Time"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginTop="24dp"
+            android:layout_gravity="end|bottom">
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:padding="8dp"
                 android:id="@+id/btn_create_dialog"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:backgroundTint="#00cc58"
-                android:layout_margin="10dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_accept_nobg" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:backgroundTint="#00ffffff"
+                android:text="Create"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary" />
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:padding="8dp"
                 android:id="@+id/btn_cancel_dialog"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:backgroundTint="#cc1000"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/ic_decline_nobg"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:backgroundTint="#00ffffff"
+                android:text="Cancel"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 

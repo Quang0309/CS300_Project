@@ -35,6 +35,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
+            android:textColor="#ffffff"
             android:textColorHint="#ffffff"
             android:paddingLeft="28dp"
             android:background="@drawable/squarewhiteborderedittext"/>
@@ -51,6 +52,7 @@
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/squarewhiteborderedittext"
