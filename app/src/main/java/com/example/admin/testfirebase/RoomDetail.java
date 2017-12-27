@@ -91,7 +91,7 @@ public class RoomDetail extends AppCompatActivity {
 
                         int age = curyear - year;
                         String information;
-                        information = p.getName() + ", Pos: " + p.getNick() + ", Age: "+age;
+                        information = p.getName() + "\n" + p.getNick() + " - age "+age+"\nPhone "+p.getPhone();
                         players.add(information);                   // array ten cua may thang trong room
                         break;
                     }

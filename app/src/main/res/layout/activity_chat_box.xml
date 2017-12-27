@@ -14,7 +14,8 @@
         android:tint="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        app:fabSize="mini" />
+        app:fabSize="mini"
+        android:src="@drawable/ic_send_white_24dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -42,5 +43,6 @@
         android:id="@+id/listMess"
         android:layout_marginBottom="16dp"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"/>
+        android:transcriptMode="alwaysScroll"
+        />
 </RelativeLayout>
