@@ -30,6 +30,7 @@ public class ListDistrictMenuAdapter extends ArrayAdapter<DistrictMenu> {
         DistrictMenu districtMenu=getItem(position);
         if (districtMenu!=null) {
             ((TextView) convertView.findViewById(R.id.text_view_district_name)).setText(districtMenu.getName());
+
         }
 
         return convertView;

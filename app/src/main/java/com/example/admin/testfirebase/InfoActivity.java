@@ -58,7 +58,7 @@ public class InfoActivity extends AppCompatActivity {
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
     DatabaseReference mRef;
-    FloatingActionButton btnSend;
+    Button btnSend;
     FirebaseUser user;
     ProgressDialog dialog;
     ImageView imgAvatar;
@@ -254,7 +254,7 @@ public class InfoActivity extends AppCompatActivity {
         txtDOB = (TextView) findViewById(R.id.txtDOB);
         txtAddress = (EditText) findViewById(R.id.txtAddress);
         txtPhone = (EditText) findViewById(R.id.txtPhone);
-        btnSend = (FloatingActionButton) findViewById(R.id.btnSend);
+        btnSend = (Button) findViewById(R.id.btnSend);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         txtNick = (TextView) findViewById(R.id.txtNick);

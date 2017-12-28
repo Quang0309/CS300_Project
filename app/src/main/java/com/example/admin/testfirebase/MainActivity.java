@@ -149,7 +149,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                         arrayList = new ArrayList<>();
                         for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            arrayList.add(snapshot.getKey().toString());
+                            if (snapshot.getKey().toString()!="Rating") {
+                                arrayList.add(snapshot.getKey().toString());
+                            }
                         }
                         arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, arrayList);
                         spinnerDistrict.setAdapter(arrayAdapter);
@@ -405,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 dialog.dismiss();
             }
-        }, 4000);
+        }, 4000); // 4s
 
     }
 

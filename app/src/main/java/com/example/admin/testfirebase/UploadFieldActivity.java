@@ -127,9 +127,11 @@ public class UploadFieldActivity extends AppCompatActivity {
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 arrayList = new ArrayList<>();
                 for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    arrayList.add(snapshot.getKey().toString());
+                    if(snapshot.getKey().toString()!="Rating") {
+                        arrayList.add(snapshot.getKey().toString());
+                    }
                 }
-                adapter = new ArrayAdapter<String>(UploadFieldActivity.this, R.layout.spinner_item, arrayList);
+                adapter = new ArrayAdapter<String>(UploadFieldActivity.this, R.layout.spinner_item_big, arrayList);
                 spinner.setAdapter(adapter);
             }
 
@@ -181,27 +183,37 @@ public class UploadFieldActivity extends AppCompatActivity {
                 final String name = editTextName.getText().toString();
                 final String address = editTextAddress.getText().toString();
                 final int rating = ratingBar.getNumStars();
-
+                if (uri==null) {
+                    Toast.makeText(UploadFieldActivity.this, "Please choose an image!", Toast.LENGTH_LONG).show();
+                }
+                if (name.isEmpty()) {
+                    Toast.makeText(UploadFieldActivity.this, "Please enter field name!", Toast.LENGTH_LONG).show();
+                }
+                else if (address.isEmpty()) {
+                    Toast.makeText(UploadFieldActivity.this, "Please enter field address!", Toast.LENGTH_LONG).show();
+                }
+                else  {
                 /*mStorage= FirebaseStorage.getInstance().getReference().child(uri.getLastPathSegment());
                 mRef = FirebaseDatabase.getInstance().getReference().child(district);*/
-                mStorage=FirebaseStorage.getInstance().getReference().child(UserID).child(uri.getLastPathSegment());
-                mRef2=new Firebase("https://testmap-60706.firebaseio.com/").child(district);
+                    mStorage = FirebaseStorage.getInstance().getReference().child(UserID).child(uri.getLastPathSegment());
+                    mRef2 = new Firebase("https://testmap-60706.firebaseio.com/").child(district);
 
-                final ProgressDialog dialog=new ProgressDialog(UploadFieldActivity.this);
-                dialog.setMessage("Please wait...");
-                dialog.show();
+                    final ProgressDialog dialog = new ProgressDialog(UploadFieldActivity.this);
+                    dialog.setMessage("Please wait...");
+                    dialog.show();
 
-                mStorage.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        dialog.dismiss();
-                        Uri downloadURI=taskSnapshot.getDownloadUrl();
+                    mStorage.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            dialog.dismiss();
+                            Uri downloadURI = taskSnapshot.getDownloadUrl();
 
-                        FieldMenu field=new FieldMenu(name,address,downloadURI.toString(),rating);
-                        mRef2.push().setValue(field);
-                        Toast.makeText(UploadFieldActivity.this,"Add field successfully",Toast.LENGTH_LONG).show();
-                    }
-                });
+                            FieldMenu field = new FieldMenu(name, address, downloadURI.toString(), rating);
+                            mRef2.push().setValue(field);
+                            Toast.makeText(UploadFieldActivity.this, "Add field successfully", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         });
     }

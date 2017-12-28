@@ -4,61 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:onClick="Onclick_HideKeyBoard">
+    android:background="@color/opa25PrimaryDark"
+    android:onClick="Onclick_HideKeyBoard"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image_view_field_upload"
-        android:layout_margin="30dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_crop_original_black_48dp"/>
+        android:layout_height="135dp"
+        android:src="@drawable/ic_crop_original_white_48dp" />
+
     <EditText
         android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/edittextborder"
+        android:layout_height="65dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/squarewhiteborderedittext"
+        android:fontFamily="sans-serif"
         android:hint="Name"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"/>
+        android:paddingLeft="28dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#abffffff"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/edit_text_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/edittextborder"
-        android:layout_marginRight="20dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:background="@drawable/squarewhiteborderedittext"
+        android:fontFamily="sans-serif"
         android:hint="Address"
-        android:paddingLeft="10dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"/>
+        android:paddingLeft="28dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#abffffff"
+        android:textStyle="bold" />
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/rating_bar"
-        android:numStars="5"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:background="@drawable/squarewhiteborderedittext">
 
-    <Spinner
-        android:id="@+id/spinner_district"
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:style/Widget.Material.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:numStars="5"
+            android:paddingTop="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:background="@drawable/squarewhiteborderedittext">
+
+        <Spinner
+            android:id="@+id/spinner_district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="18dp"
+            android:popupBackground="@drawable/primary_color_white_border_square"
+            android:backgroundTint="#ffffff" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button_upload_field"
+        style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginBottom="40dp"
-
-        />
-    <Button
-        android:id="@+id/button_upload_field"
-        android:background="@drawable/edittextborder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:layout_gravity="center"/>
+        android:text="Submit"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
 </LinearLayout>

@@ -5,11 +5,16 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -33,15 +38,18 @@ public class FieldDetailActivity extends AppCompatActivity {
     String district, key;
     TextView textViewName, textViewAddress;
     ImageView imageView;
-    ImageButton imageButton;
+    FloatingActionButton mapButton;
+    FloatingActionButton fab;
     String url, UserID;
     DatabaseReference mRef, mRating;
     ValueEventListener mVe, mVeRating;
     RatingBar ratingBar, ratingBarDialog;
-    Button ratingButton;
+    FloatingActionButton ratingButton;
     Dialog dialog;
     Firebase mRef2, mRating2;
     com.firebase.client.ValueEventListener mVe2, mVeRating2;
+    //for FAB
+    boolean isFABopen = false;
 
 
     @Override
@@ -56,7 +64,20 @@ public class FieldDetailActivity extends AppCompatActivity {
         initialize();
         loadData();
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isFABopen){
+                    activateFAB();
+                }
+                else{
+                    deactivateFAB();
+                }
+            }
+        });
+
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 url = "https://www.google.com/maps/search/?api=1&query=";
@@ -73,7 +94,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         ratingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = new Dialog(FieldDetailActivity.this, R.style.Theme_AppCompat_DayNight_Dialog);
+                dialog = new Dialog(FieldDetailActivity.this);
                 dialog.setContentView(R.layout.dialog2);
                 dialog.setCancelable(false);
                 dialog.setCanceledOnTouchOutside(false);
@@ -86,6 +107,10 @@ public class FieldDetailActivity extends AppCompatActivity {
 
                     }
                 });
+
+                TextView title = (TextView) dialog.findViewById(R.id.title);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setTextSize(TypedValue.COMPLEX_UNIT_SP,22);
 
                 Button buttonSubmit = (Button) dialog.findViewById(R.id.dialog_button_submit);
                 buttonSubmit.setOnClickListener(new View.OnClickListener() {
@@ -219,9 +244,50 @@ public class FieldDetailActivity extends AppCompatActivity {
                     }
                 });
 
+                buttonSubmit.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                buttonCancel.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+
                 dialog.show();
             }
         }); // end of rating button
+    }
+
+    private void deactivateFAB() {
+        isFABopen = false;
+        final SpringAnimation mapStrtAnim = new SpringAnimation(mapButton, DynamicAnimation.TRANSLATION_Y,0);
+        final SpringAnimation rateStrtAnim = new SpringAnimation(ratingButton, DynamicAnimation.TRANSLATION_Y,0);
+        final SpringAnimation rotateCore = new SpringAnimation(fab, DynamicAnimation.ROTATION, 0);
+        final SpringAnimation corescaleXAnim = new SpringAnimation(fab, DynamicAnimation.SCALE_X,-1);
+        final SpringAnimation corescaleYAnim = new SpringAnimation(fab, DynamicAnimation.SCALE_Y,-1);
+        mapStrtAnim.setStartVelocity(500);
+        rateStrtAnim.setStartVelocity(500);
+        rotateCore.setStartVelocity(500);
+        corescaleXAnim.setStartVelocity(15);
+        corescaleYAnim.setStartVelocity(15);
+        mapStrtAnim.start();
+        rateStrtAnim.start();
+        corescaleXAnim.start();
+        corescaleYAnim.start();
+        rotateCore.start();
+    }
+
+    private void activateFAB() {
+        isFABopen = true;
+        final SpringAnimation mapStrtAnim = new SpringAnimation(mapButton, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_65));
+        final SpringAnimation rateStrtAnim = new SpringAnimation(ratingButton, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_neg65));
+        final SpringAnimation rotateCore = new SpringAnimation(fab, DynamicAnimation.ROTATION, 45);
+        final SpringAnimation corescaleXAnim = new SpringAnimation(fab, DynamicAnimation.SCALE_X,-1);
+        final SpringAnimation corescaleYAnim = new SpringAnimation(fab, DynamicAnimation.SCALE_Y,-1);
+        mapStrtAnim.setStartVelocity(500);
+        rateStrtAnim.setStartVelocity(500);
+        rotateCore.setStartVelocity(500);
+        corescaleXAnim.setStartVelocity(15);
+        corescaleYAnim.setStartVelocity(15);
+        mapStrtAnim.start();
+        rateStrtAnim.start();
+        corescaleXAnim.start();
+        corescaleYAnim.start();
+        rotateCore.start();
     }
 
     private void loadData() {
@@ -264,6 +330,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         ratingBar.setRating(field2.getRating());
         textViewName.setText(field2.getName());
         textViewAddress.setText(field2.getAddress());
+        textViewName.setTypeface(textViewName.getTypeface(), Typeface.BOLD);
     }
 
     @Override
@@ -280,8 +347,10 @@ public class FieldDetailActivity extends AppCompatActivity {
         ratingBar = (RatingBar) findViewById(R.id.rating_bar_info);
         textViewName = (TextView) findViewById(R.id.text_view_field_name_detail);
         textViewAddress = (TextView) findViewById(R.id.text_view_field_address_detail);
-        imageButton = (ImageButton) findViewById(R.id.image_button_google_maps);
-        ratingButton = (Button) findViewById(R.id.button_rating);
+        mapButton = (FloatingActionButton) findViewById(R.id.image_button_google_maps);
+        ratingButton = (FloatingActionButton) findViewById(R.id.button_rating);
+        fab = (FloatingActionButton) findViewById(R.id.coreFab);
+        fab.setSize(0);
     }
 
     private void appendGoogleMapUrlForSearch(String s1, String s2) {
