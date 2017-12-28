@@ -43,6 +43,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+import static com.example.admin.testfirebase.R.id.field_name;
+
 import static com.example.admin.testfirebase.R.id.tabHost;
 
 public class RoomDetail extends AppCompatActivity {
@@ -72,6 +74,8 @@ public class RoomDetail extends AppCompatActivity {
     TabHost tabHost;
     String id;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,7 @@ public class RoomDetail extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String test = currentUser.getDisplayName();
         final Room room = (Room) getIntent().getSerializableExtra("room");
+
 
         id = room.getId();
 
@@ -274,8 +279,6 @@ public class RoomDetail extends AppCompatActivity {
                     Adapter.add(mess);
                     txtMess.setText("");
                 }
-
-                notificationPopUp("Room: " + room.getFieldName(),name + ": " + input );
             }
         });
     }
@@ -308,15 +311,17 @@ public class RoomDetail extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                Room roomTemp = (Room) getIntent().getSerializableExtra("room");
                 data.clear();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
                     com.example.admin.testfirebase.Message mess = snapshot.getValue(com.example.admin.testfirebase.Message.class);
                     data.add(mess);
+                    /*if (mess.getMessageUser() != currentUser.getDisplayName())
+                        notificationPopUp("Room: " + roomTemp.getFieldName(),name + ": " +);*/
                 }
                 Adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
