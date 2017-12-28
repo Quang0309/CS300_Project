@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class InfoActivity extends AppCompatActivity {
     EditText txtName,txtAddress,txtPhone;
@@ -235,7 +236,10 @@ public class InfoActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR,i);
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
-                txtDOB.setText(sdf1.format(calendar.getTime()));
+                if (birthDateConstraint(i))
+                    txtDOB.setText(sdf1.format(calendar.getTime()));
+                else
+                    makeToast("You must be at least 6 years old to join the game");
             }
         };
         DatePickerDialog picker = new DatePickerDialog(this,callback,
@@ -324,7 +328,24 @@ public class InfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         return;
     }
+    //Adding constraints for app
+    boolean birthDateConstraint(int year) {
+        Calendar c = Calendar.getInstance();
+        int curyear = c.get(Calendar.YEAR);
+        int age = curyear - year;
+        if (age > 5)
+            return true;
+        else
+            return false;
+    }
+
+    //Additional functions
+    void makeToast(String s) {
+        Toast.makeText(InfoActivity.this, s, Toast.LENGTH_LONG).show();
+    }
 }
+
+
 
 
     /**

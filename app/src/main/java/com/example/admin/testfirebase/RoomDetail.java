@@ -1,11 +1,16 @@
 package com.example.admin.testfirebase;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,6 +21,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,8 +37,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-import static com.example.admin.testfirebase.R.id.btn_alarm_off;
-import static com.example.admin.testfirebase.R.id.btn_alarm_on;
 import static com.example.admin.testfirebase.R.id.tabHost;
 
 public class RoomDetail extends AppCompatActivity {
@@ -41,6 +45,7 @@ public class RoomDetail extends AppCompatActivity {
     Calendar mCalendar;
     PendingIntent alarmIntent;
     Intent myIntent;
+    boolean isAlarm = false;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -74,7 +79,7 @@ public class RoomDetail extends AppCompatActivity {
         final Room room = (Room) getIntent().getSerializableExtra("room");
         id = room.getId();
 
-        TextView fieldName = (TextView) findViewById(R.id.field_name);
+        final TextView fieldName = (TextView) findViewById(R.id.field_name);
         TextView fieldAddress = (TextView) findViewById(R.id.field_address);
         final TextView matchDate = (TextView) findViewById(R.id.match_date);
         final TextView matchTime = (TextView) findViewById(R.id.match_time);
@@ -85,27 +90,9 @@ public class RoomDetail extends AppCompatActivity {
         final TextView count = (TextView) findViewById(R.id.count);
 
         this.mContext = this;
-        final Button btnAlarmOn = (Button) findViewById(R.id.btn_alarm_on);
-        final Button btnAlarmOff = (Button) findViewById(R.id.btn_alarm_off);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mCalendar = Calendar.getInstance();
         myIntent = new Intent(this.mContext, AlarmReceiver.class);
-
-        btnAlarmOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String date = matchDate.getText().toString();
-                String time = matchTime.getText().toString();
-                time = time + ":00";
-                setAlarmOn(date, time);
-            }
-        });
-        btnAlarmOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setAlarmOff();
-            }
-        });
 
         init();
 
@@ -124,6 +111,17 @@ public class RoomDetail extends AppCompatActivity {
                 for (String strPlayer : arrPlayers) {
 
                     if (strPlayer.equals(p.getUID())) {
+
+                        for (String player : arrPlayers) {
+                            if (player.equals(currentUser.getUid()) && isAlarm == false) {
+                                String date = matchDate.getText().toString();
+                                String time = matchTime.getText().toString();
+                                time = time + ":00";
+                                setAlarmOn(date, time);
+                                isAlarm = true;
+                            }
+                        }
+
                         Calendar calendar = Calendar.getInstance();
                         int curyear = calendar.get(Calendar.YEAR);
 
@@ -138,8 +136,9 @@ public class RoomDetail extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+                if (players.size() >= 9)
+                    notificationPopUp("ROOM NOTIFICATION", "10 people has join the room");
                 count.setText(String.valueOf(players.size()) + "/10" + " players");
-
                 //3 Buttons
                 btnJoin.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -155,6 +154,11 @@ public class RoomDetail extends AppCompatActivity {
                             }
                         }
                         if (notIn) {
+                            String date = matchDate.getText().toString();
+                            String time = matchTime.getText().toString();
+                            time = time + ":00";
+                            setAlarmOn(date, time);
+                            isAlarm = true;
 
                             arrPlayers.add(currentUser.getUid());
                             players.add(currentUser.getDisplayName());
@@ -256,6 +260,7 @@ public class RoomDetail extends AppCompatActivity {
                     Adapter.add(mess);
                     txtMess.setText("");
                 }
+                notificationPopUp("Room: " + room.getFieldName(),currentUser.getDisplayName()+ ": " + input);
             }
         });
     }
@@ -458,6 +463,41 @@ public class RoomDetail extends AppCompatActivity {
         myIntent.putExtra("extra", "on");
         alarmIntent = PendingIntent.getBroadcast(RoomDetail.this, 0, myIntent, 0);
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), 1000*60*1, alarmIntent);
+        //mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
+
+
+        Calendar c = Calendar.getInstance();
+        int curHour = c.get(Calendar.HOUR_OF_DAY);
+        int curMinute = c.get(Calendar.MINUTE);
+        int tempH;
+        int tempM;
+        if (curHour != hour)
+            tempH = hour - curHour - 1;
+        else
+            tempH = 0;
+        tempM = minute - curMinute;
+        final Handler mHandler = new Handler();
+        int time = 1000*(30 + tempH*60*60 + tempM*60);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setAlarmOff();
+            }
+        }, time);
+
+    }
+
+    private void notificationPopUp(String title, String text) {
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
+        notification.setAutoCancel(true);
+        notification.setSmallIcon(R.mipmap.ic_launcher);
+        notification.setWhen(System.currentTimeMillis());
+        notification.setContentTitle(title);
+        notification.setContentText(text);
+
+        final int notifyId = 2;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(notifyId, notification.build());
     }
 
     private void setAlarmOff() {

@@ -19,6 +19,7 @@ public class RingtonePlayService extends Service{
     MediaPlayer mediaSong;
     int startId;
     boolean isRunning;
+    int count = 0;
 
     @Nullable
     @Override
@@ -51,12 +52,15 @@ public class RingtonePlayService extends Service{
         if (!this.isRunning && startId == 1) {
             playRingtone();
             notificationPopUp();
+            ++count;
+            if (count == 2)
+                stopRingtone();
         }
         // Ringtone + off => turn off alarm
         if (this.isRunning && startId == 0) {
             stopRingtone();
         }
-        // Ringtone + off => nothing happen
+        // No ringtone + off => nothing happen
         if (!this.isRunning && startId == 0) {
             this.isRunning = false;
             this.startId = 0;
@@ -65,8 +69,10 @@ public class RingtonePlayService extends Service{
         if (this.isRunning && startId == 1) {
             playRingtone();
             notificationPopUp();
+            ++count;
+            if (count == 2)
+                stopRingtone();
         }
-
         // If we get killed, after returning from here, restart
         return START_STICKY;
     }
@@ -79,8 +85,8 @@ public class RingtonePlayService extends Service{
     }
 
     private void notificationPopUp() {
-        Intent mainActivityIntent = new Intent(this.getApplicationContext(), RoomDetail.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //Intent mainActivityIntent = new Intent(this.getApplicationContext(), RoomDetail.class);
+        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
@@ -88,7 +94,7 @@ public class RingtonePlayService extends Service{
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle("FOOTBALL TIME");
         notification.setContentText("Your football match will start soon");
-        notification.setContentIntent(pendingIntent);
+        //notification.setContentIntent(pendingIntent);
 
         final int notifyId = 1;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

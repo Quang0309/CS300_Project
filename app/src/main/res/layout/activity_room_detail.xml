@@ -133,20 +133,7 @@
                 android:layout_margin="8dp"
                 android:backgroundTint="#D9CB0B"
                 android:src="@drawable/ic_decline_nobg"/>
-            <Button
-                android:id="@+id/btn_alarm_on"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:text="Alarm On"
-                android:textSize="10sp"/>
-            <Button
-                android:id="@+id/btn_alarm_off"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:text="Alarm off"
-                android:textSize="10sp"/>
             <!---->
-
         </LinearLayout>
     </LinearLayout>
 
