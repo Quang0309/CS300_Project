@@ -127,9 +127,11 @@ public class UploadFieldActivity extends AppCompatActivity {
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 arrayList = new ArrayList<>();
                 for (com.firebase.client.DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    arrayList.add(snapshot.getKey().toString());
+                    if(snapshot.getKey().toString()!="Rating") {
+                        arrayList.add(snapshot.getKey().toString());
+                    }
                 }
-                adapter = new ArrayAdapter<String>(UploadFieldActivity.this, R.layout.spinner_item, arrayList);
+                adapter = new ArrayAdapter<String>(UploadFieldActivity.this, R.layout.spinner_item_big, arrayList);
                 spinner.setAdapter(adapter);
             }
 
