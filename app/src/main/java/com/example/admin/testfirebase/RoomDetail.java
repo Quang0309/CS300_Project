@@ -153,7 +153,6 @@ public class RoomDetail extends AppCompatActivity {
                         for (String player : arrPlayers) {
 
                             if (player.equals(currentUser.getUid())) {
-
                                 notIn = false;
                                 Toast.makeText(RoomDetail.this, "you're already in this room", Toast.LENGTH_SHORT).show();
                                 break;
@@ -169,7 +168,7 @@ public class RoomDetail extends AppCompatActivity {
                             arrPlayers.add(currentUser.getUid());
                             players.add(currentUser.getDisplayName());
                             adapter.notifyDataSetChanged();
-                            count.setText(String.valueOf(players.size()) + "/10");
+                            count.setText(String.valueOf(players.size   ()) + "/10");
                         }
                     }
                 });
@@ -267,7 +266,11 @@ public class RoomDetail extends AppCompatActivity {
                     Adapter.add(mess);
                     txtMess.setText("");
                 }
-                notificationPopUp("Room: " + room.getFieldName(),currentUser.getDisplayName()+ ": " + input);
+                for (String player : arrPlayers) {
+                    if (!player.equals(currentUser.getUid())) {
+                        notificationPopUp("Room: " + room.getFieldName(),currentUser.getDisplayName()+ ": " + input);
+                    }
+                }
             }
         });
     }
