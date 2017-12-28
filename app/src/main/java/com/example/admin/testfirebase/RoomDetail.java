@@ -51,7 +51,8 @@ public class RoomDetail extends AppCompatActivity {
     Calendar mCalendar;
     PendingIntent alarmIntent;
     Intent myIntent;
-    boolean isAlarm = false;
+    boolean isAlarmOn = false;
+    boolean isAlarmOff = true;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -83,6 +84,7 @@ public class RoomDetail extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String test = currentUser.getDisplayName();
         final Room room = (Room) getIntent().getSerializableExtra("room");
+
         id = room.getId();
 
         final TextView fieldName = (TextView) findViewById(R.id.field_name);
@@ -115,26 +117,25 @@ public class RoomDetail extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final Person p = dataSnapshot.getValue(Person.class);
                 for (String strPlayer : arrPlayers) {
-
                     if (strPlayer.equals(p.getUID())) {
 
                         for (String player : arrPlayers) {
-                            if (player.equals(currentUser.getUid()) && isAlarm == false) {
+                            if (player.equals(currentUser.getUid()) && isAlarmOn == false) {
                                 String date = matchDate.getText().toString();
                                 String time = matchTime.getText().toString();
                                 time = time + ":00";
                                 setAlarmOn(date, time);
-                                isAlarm = true;
+                                isAlarmOn = true;
+                                isAlarmOff = false;
                             }
                         }
 
+
                         Calendar calendar = Calendar.getInstance();
                         int curyear = calendar.get(Calendar.YEAR);
-
-
                         int year = Integer.parseInt(p.getDOB().substring(6,10));
-
                         int age = curyear - year;
+
                         String information;
                         information = p.getName() + "\n" + p.getNick() + " - age "+age+"\nPhone "+p.getPhone();
                         players.add(information);                   // array ten cua may thang trong room
@@ -142,9 +143,11 @@ public class RoomDetail extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+
                 if (players.size() >= 9)
                     notificationPopUp("ROOM NOTIFICATION", "10 people has join the room");
                 count.setText(String.valueOf(players.size()) + "/10" + " players");
+
                 //3 Buttons
                 btnJoin.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -163,7 +166,8 @@ public class RoomDetail extends AppCompatActivity {
                             String time = matchTime.getText().toString();
                             time = time + ":00";
                             setAlarmOn(date, time);
-                            isAlarm = true;
+                            isAlarmOn = true;
+                            isAlarmOff = false;
 
                             arrPlayers.add(currentUser.getUid());
                             players.add(currentUser.getDisplayName());
@@ -175,6 +179,10 @@ public class RoomDetail extends AppCompatActivity {
                 btnLeave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (isAlarmOff == false) {
+                            setAlarmOff();
+                            isAlarmOff = true;
+                        }
                         int i = 0;
                         boolean out = true;
                         for (String player : arrPlayers) {
@@ -266,11 +274,8 @@ public class RoomDetail extends AppCompatActivity {
                     Adapter.add(mess);
                     txtMess.setText("");
                 }
-                for (String player : arrPlayers) {
-                    if (!player.equals(currentUser.getUid())) {
-                        notificationPopUp("Room: " + room.getFieldName(),currentUser.getDisplayName()+ ": " + input);
-                    }
-                }
+
+                notificationPopUp("Room: " + room.getFieldName(),name + ": " + input );
             }
         });
     }
@@ -285,7 +290,7 @@ public class RoomDetail extends AppCompatActivity {
 
         TabHost.TabSpec tab2 = tabHost.newTabSpec("t2");
         tab2.setContent(R.id.tab2);
-        tab2.setIndicator("",getResources().getDrawable(R.drawable.ic_message_black_24dp));
+        tab2.setIndicator("", getResources().getDrawable(R.drawable.ic_message_black_24dp));
         tabHost.addTab(tab2);
 
         btnFloat = (FloatingActionButton) findViewById(R.id.btnFloat);
@@ -481,11 +486,14 @@ public class RoomDetail extends AppCompatActivity {
         int curMinute = c.get(Calendar.MINUTE);
         int tempH;
         int tempM;
-        if (curHour != hour)
+        if (curHour != hour) {
             tempH = hour - curHour - 1;
-        else
+            tempM = minute - curMinute;
+        }
+        else {
             tempH = 0;
-        tempM = minute - curMinute;
+            tempM = 0;
+        }
         final Handler mHandler = new Handler();
         int time = 1000*(30 + tempH*60*60 + tempM*60);
         mHandler.postDelayed(new Runnable() {
