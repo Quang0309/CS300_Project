@@ -1,12 +1,15 @@
 package com.example.admin.testfirebase;
 
 import android.os.Bundle;
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -66,7 +69,7 @@ public class RoomDetail extends AppCompatActivity {
         ListView lvPlayers = (ListView) findViewById(R.id.list_players);
         final Button btnJoin = (Button) findViewById(R.id.btn_join);
         final Button btnLeave = (Button) findViewById(R.id.btn_leave);
-        final Button btnBack = (Button) findViewById(R.id.btn_back);
+        final ImageButton btnBack = (ImageButton) findViewById(R.id.btn_back);
         final TextView count = (TextView) findViewById(R.id.count);
         init();
         players = new ArrayList<>();
@@ -149,7 +152,7 @@ public class RoomDetail extends AppCompatActivity {
                         }
                         if (out) {
 
-                            Toast.makeText(RoomDetail.this, "You already leaved this room!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RoomDetail.this, "You are not in this room!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -163,6 +166,7 @@ public class RoomDetail extends AppCompatActivity {
                         }
                         room.setPlayers(strPlayer);
                         mRefRoom.child(room.getId()).setValue(room);
+
                         finish();
                     }
                 });
@@ -263,7 +267,7 @@ public class RoomDetail extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Button btn = (Button) findViewById(R.id.btn_back);
-        btn.performClick();
+        ImageButton btn = (ImageButton) findViewById(R.id.btn_back);
+        btn.callOnClick();
     }
 }
