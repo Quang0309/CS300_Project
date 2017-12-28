@@ -37,6 +37,7 @@
                     android:layout_alignBottom="@id/count"
                     android:src="#88000000"></ImageView>
 
+
                 <TextView
                     android:id="@+id/field_name"
                     style="@style/Text.primary.nopadding"
@@ -153,7 +154,6 @@
                 android:textSize="14sp" />
 
         </RelativeLayout>
-
     </LinearLayout>
 
 </LinearLayout>

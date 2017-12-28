@@ -47,6 +47,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -213,9 +214,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     }
                 });
 
-
-
-
                 etDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -225,15 +223,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                         mMonth = c.get(Calendar.MONTH);
                         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
                         DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                                 new DatePickerDialog.OnDateSetListener() {
-
                                     @Override
                                     public void onDateSet(DatePicker view, int year,
                                                           int monthOfYear, int dayOfMonth) {
-
-                                        etDate.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                                        monthOfYear = monthOfYear + 1;
+                                        if (dateConstraint(dayOfMonth, monthOfYear, year))
+                                            etDate.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                                        else
+                                            makeToast("Your schedule is not valid please input again");
 
                                     }
                                 }, mYear, mMonth, mDay);
@@ -244,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 etTime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        makeToast("Remember you match must be at least 1 hour after the current time");
                         // Get Current Time
                         final Calendar c = Calendar.getInstance();
                         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -257,10 +256,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                                     @Override
                                     public void onTimeSet(TimePicker view, int hourOfDay,
                                                           int minute) {
-                                        String shour = Integer.toString(hourOfDay);
-                                        String smin = Integer.toString(minute);
-                                        String res = ("00" + shour).substring(shour.length()) + ":" + ("00" + smin).substring(smin.length());
-                                        etTime.setText(res);
+                                        if (timeConstraint(hourOfDay, minute)) {
+                                            String shour = Integer.toString(hourOfDay);
+                                            String smin = Integer.toString(minute);
+                                            String res = ("00" + shour).substring(shour.length()) + ":" + ("00" + smin).substring(smin.length());
+                                            etTime.setText(res);
+                                        }
+                                        else
+                                           makeToast("Your time is not valid please input again");
                                     }
                                 }, mHour, mMinute, false);
                         timePickerDialog.show();
@@ -339,9 +342,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             }
         });
     }
-
-
-
 
     private void init()
     {
@@ -424,9 +424,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         currentUser = mAuth.getCurrentUser();
         userId = currentUser.getUid();
     }
-
-
-
 
     public void infor_onclick() {
 
@@ -525,6 +522,39 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     }
 
+
+    //Adding constraints for app
+    boolean dateConstraint(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        if (year >= c.get(Calendar.YEAR))
+            if(month >= c.get(Calendar.MONTH))
+                if (day >= c.get(Calendar.DAY_OF_MONTH))
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        else
+            return false;
+    }
+
+    boolean timeConstraint(int hour, int minute) {
+        Date d = Calendar.getInstance().getTime();
+        if (hour > d.getHours())
+            if(minute >= d.getMinutes())
+                return true;
+            else
+                if (hour - d.getHours() > 1)
+                    return true;
+                else
+                    return false;
+        else
+            return false;
+    }
+    //Additional functions
+    void makeToast(String s) {
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+    }
 
     /* @Override
     public void onBackPressed() {
