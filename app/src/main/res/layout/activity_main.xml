@@ -16,17 +16,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:text="create room"
-            android:layout_margin="5dp"
-            android:textSize="25sp"
-            android:textColor="@color/opa25PrimaryDark"
-            android:background="@drawable/ripple_effect"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:id="@+id/btn_create"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="create room"
+                android:layout_margin="5dp"
+                android:textSize="25sp"
+                android:textColor="@color/opa25PrimaryDark"
+                android:background="@drawable/ripple_effect"
+                android:textAllCaps="false"
+                android:clickable="true"
+                android:id="@+id/btn_create"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="sort room"
+                android:layout_margin="5dp"
+                android:textSize="25sp"
+                android:textColor="@color/opa25PrimaryDark"
+                android:background="@drawable/ripple_effect"
+                android:textAllCaps="false"
+                android:clickable="true"
+                android:id="@+id/btn_sort"/>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
