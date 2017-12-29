@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -74,7 +75,9 @@ public class RoomDetail extends AppCompatActivity {
     TabHost tabHost;
     String id;
 
+    ImageView imgField;
     double avgAge = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,7 @@ public class RoomDetail extends AppCompatActivity {
         myIntent = new Intent(this.mContext, AlarmReceiver.class);
 
         init();
-
+        setImage();
         players = new ArrayList<>();
         final ArrayList<String> arrPlayers = new ArrayList<>();     // array id cua may thang trong room
         for (int i = 0; i < room.getPlayers().length(); i = i + 28) {
@@ -292,6 +295,61 @@ public class RoomDetail extends AppCompatActivity {
         });
     }
 
+    private void setImage() {
+
+        if (Integer.valueOf(id) % 13 == 0) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/vf50c2.jpg?alt=media&token=90954e66-cc22-4aa7-bd47-984e1a488474").into(imgField);
+        } else if (Integer.valueOf(id) % 13 == 1) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/su-dung-co-nhan-tao-cho-san-bong-360x250.jpg?alt=media&token=1bbdfb07-f1e1-4835-a446-ec68b88e3546").into(imgField);
+        }
+        else if(Integer.valueOf(id) % 13 == 2)
+        {
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/san-bong-co-nhan-tao-fpt-1.jpg?alt=media&token=ea417ff9-ecb3-41b0-9559-7715cb08b2fa").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 3) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/Co-nhan-tao-san-bong-Nguyen-Gia-300x182.jpg?alt=media&token=55a0cb7c-6c8d-4dab-ab0c-fc3cfd421b9d").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 4) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/8.jpg?alt=media&token=8eb2dd99-a15b-4240-9998-316309a6f0ee").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 5) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/7.jpg?alt=media&token=26cce9d0-1ad0-40e0-a6d3-f790a5f5957e").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 6) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/6.jpg?alt=media&token=d56f5025-b99c-47fd-a83d-4a2807be3303").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 7) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/5.jpg?alt=media&token=9ad4b67e-c5e2-4b02-a3d0-4334c27876f1").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 8) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/4.jpg?alt=media&token=3fcb291d-276b-4502-8540-76d3691f32f2").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 9) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/3.jpg?alt=media&token=9a99aa47-1145-4078-8856-ec36ea454115").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 10) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/2.jpg?alt=media&token=56636f86-364b-481a-974c-64c043fd58a0").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 11) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/10.jpg?alt=media&token=caf6ab9a-4554-4330-9a02-a515289cf8eb").into(imgField);
+        }
+        else if (Integer.valueOf(id) % 13 == 12) {
+
+            Glide.with(RoomDetail.this).load("https://firebasestorage.googleapis.com/v0/b/testfirebase-27f0c.appspot.com/o/1.jpg?alt=media&token=b28459a2-350d-4fdd-b081-613daeb8b07e").into(imgField);
+        }
+    }
+
     private void init() {
         tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
@@ -305,6 +363,7 @@ public class RoomDetail extends AppCompatActivity {
         tab2.setIndicator("", getResources().getDrawable(R.drawable.ic_message_black_24dp));
         tabHost.addTab(tab2);
 
+        imgField = (ImageView) findViewById(R.id.imgField);
         btnFloat = (FloatingActionButton) findViewById(R.id.btnFloat);
         listview = (ListView) findViewById(R.id.listMess);
         txtMess = (EditText) findViewById(R.id.txtMessage);
