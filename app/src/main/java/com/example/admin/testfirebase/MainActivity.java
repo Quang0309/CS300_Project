@@ -47,18 +47,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Button btnCreateRoom;
+    Button btnSortRoom;
+
     private int mYear, mMonth, mDay, mHour, mMinute;
     private int roomId;
     private String name;
@@ -79,12 +83,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     ActionBarDrawerToggle mToggle;
     CircleImageView circle_avatar;
     ArrayList<String> arrayList,arrayListFieldName,getArrayListFielAddress;
-    ArrayAdapter<String> arrayAdapter,arrayAdapter2;
+    ArrayAdapter<String> arrayAdapter,arrayAdapter2, arraySortTypeAdapter;
     ListFieldMenuAdapter fieldAdapter;
     String district;
     com.firebase.client.ValueEventListener mVe2,mVeField;
     int position_of_field_in_array;
 
+    String type;
+    String order;
 
     String URL = "";
     ProgressDialog dialog;
@@ -99,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         rv.setHasFixedSize(true);
 
         btnCreateRoom = (Button) findViewById(R.id.btn_create);
+        btnSortRoom = (Button) findViewById(R.id.btn_sort);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -126,6 +133,108 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         loadAvatar();
         populateListRoom();
         loadUser();
+
+
+       /* btnFieldAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comparator<Room> comparator = new Comparator<Room>() {
+                    @Override
+                    public int compare(Room r1, Room r2) {
+                        return r1.getFieldName().compareToIgnoreCase(r2.getFieldName());
+                    }
+                };
+                Collections.sort(rooms, comparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        btnFieldDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comparator<Room> comparator = new Comparator<Room>() {
+                    @Override
+                    public int compare(Room r1, Room r2) {
+                        return r2.getFieldName().compareToIgnoreCase(r1.getFieldName());
+                    }
+                };
+                Collections.sort(rooms, comparator);
+                adapter.notifyDataSetChanged();
+            }
+        });*/
+
+
+        btnSortRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final  Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.dialog_sort_room);
+                dialog.setTitle("Sort Room");
+
+                final Spinner spinnerType = (Spinner) dialog.findViewById(R.id.spinner_sort_type);
+                final Spinner spinnerOrder = (Spinner) dialog.findViewById(R.id.spinner_sort_order);
+                Button btnSortDialog = (Button) dialog.findViewById(R.id.btn_sort_dialog);
+                Button btnCancelDialog = (Button) dialog.findViewById(R.id.btn_cancel_dialog);
+
+
+
+
+                spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
+                        type = (String) parent.getItemAtPosition(pos);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                spinnerOrder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
+                        order = (String) parent.getItemAtPosition(pos);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                btnSortDialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(type.equalsIgnoreCase("Field name"))
+                            if (order.equalsIgnoreCase("Ascending"))
+                                ascendingSortFieldName();
+                            else
+                                descendingSortFieldName();
+                        if(type.equalsIgnoreCase("Match time"))
+                            if (order.equalsIgnoreCase("Ascending"))
+                                ascendingSortMatchTime();
+                            else
+                                descendingSortMatchTime();
+                        if(type.equalsIgnoreCase("Age"))
+                            if (order.equalsIgnoreCase("Ascending"))
+                                ascendingSortAge();
+                            else
+                                descendingSortAge();
+                        dialog.dismiss();
+                        makeToast("Room sorted");
+                    }
+                });
+
+                btnCancelDialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
 
         btnCreateRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                                     @Override
                                     public void onTimeSet(TimePicker view, int hourOfDay,
                                                           int minute) {
-                                        if (timeConstraint(hourOfDay, minute)) {
+                                        if (timeConstraint(hourOfDay, minute) || isFuture(mDay, mMonth, mYear)) {
                                             String shour = Integer.toString(hourOfDay);
                                             String smin = Integer.toString(minute);
                                             String res = ("00" + shour).substring(shour.length()) + ":" + ("00" + smin).substring(smin.length());
@@ -526,16 +635,34 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     //Adding constraints for app
     boolean dateConstraint(int day, int month, int year) {
         Calendar c = Calendar.getInstance();
-        if (year >= c.get(Calendar.YEAR))
-            if(month >= c.get(Calendar.MONTH))
+        if (year > c.get(Calendar.YEAR))
+            return true;
+        else if (year == c.get(Calendar.YEAR)) {
+            if (month > c.get(Calendar.MONTH))
+                return true;
+            else if(month == c.get(Calendar.MONTH))
                 if (day >= c.get(Calendar.DAY_OF_MONTH))
                     return true;
                 else
                     return false;
             else
                 return false;
+        }
         else
             return false;
+    }
+
+    boolean isFuture(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        if (year >= c.get(Calendar.YEAR))
+            return true;
+        else
+            if(month >= c.get(Calendar.MONTH))
+                return true;
+            else
+                if (day >= c.get(Calendar.DAY_OF_MONTH))
+                    return true;
+        return false;
     }
 
     boolean timeConstraint(int hour, int minute) {
@@ -555,6 +682,196 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     void makeToast(String s) {
         Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
     }
+
+    void descendingSortFieldName() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                return r2.getFieldName().compareToIgnoreCase(r1.getFieldName());
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    void ascendingSortFieldName() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                return r1.getFieldName().compareToIgnoreCase(r2.getFieldName());
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    void descendingSortMatchTime() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                int score1 = 0, score2 = 0;
+                int day1 = Integer.valueOf(r1.getDate().substring(0,2));
+                int day2 = Integer.valueOf(r2.getDate().substring(0,2));
+                int month1 = Integer.valueOf(r1.getDate().substring(3,5));
+                int month2 = Integer.valueOf(r2.getDate().substring(3,5));
+                int year1 = Integer.valueOf(r1.getDate().substring(6,10));
+                int year2 = Integer.valueOf(r2.getDate().substring(6,10));
+
+                String s1 = r1.getTime();
+                String s2 = r2.getTime();
+                if (s1 == "")
+                    s1 = "00:00";
+                if (s2 == "")
+                    s2 = "00:00";
+
+
+                int hour1 = Integer.valueOf(s1.substring(0,2));
+                int hour2 = Integer.valueOf(s2.substring(0,2));
+                int min1 = Integer.valueOf(s1.substring(3,5));
+                int min2 = Integer.valueOf(s2.substring(3,5));
+
+
+                if (year1 < year2) {
+
+                    score2 = score2 + ((year2 - year1) * 365 * 24 * 60);
+                } else {
+
+                    score1 = score1 + ((year1 - year2) * 365 * 24 * 60);
+                }
+                if (month1 < month2) {
+
+                    score2 = score2 + ((month2 - month1) * 30 * 24 * 60);
+                } else {
+
+                    score1 = score1 + ((month1 - month2) * 30 * 24 * 60);
+                }
+                if (day1 < day2) {
+
+                    score2 = score2 + (day2 - day1) * 24 * 60;
+                } else {
+
+                    score1 = score1 + (day1 - day2) * 24 * 60;
+                }
+
+                if (year1 == year2)
+                    if (month1 == month2)
+                        if (day1 == day2) {
+                            if (hour1 < hour2) {
+
+                                score2 = score2 + ((hour2- hour1) * 60);
+                            } else {
+
+                                score1 = score1 + ((hour1 - hour2) * 60);
+                            }
+                            if (min1 < min2) {
+
+                                score2 = score2 + (min2 - min1);
+                            } else {
+
+                                score1 = score1 + (min1 - min2);
+                            }
+                        }
+                return Integer.compare(score2, score1);
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    void ascendingSortMatchTime() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                int score1 = 0, score2 = 0;
+                int day1 = Integer.valueOf(r1.getDate().substring(0,2));
+                int day2 = Integer.valueOf(r2.getDate().substring(0,2));
+                int month1 = Integer.valueOf(r1.getDate().substring(3,5));
+                int month2 = Integer.valueOf(r2.getDate().substring(3,5));
+                int year1 = Integer.valueOf(r1.getDate().substring(6,10));
+                int year2 = Integer.valueOf(r2.getDate().substring(6,10));
+
+
+                String s1 = r1.getTime();
+                String s2 = r2.getTime();
+                if (s1 == "")
+                    s1 = "00:00";
+                if (s2 == "")
+                    s2 = "00:00";
+
+                int hour1 = Integer.valueOf(s1.substring(0,2));
+                int hour2 = Integer.valueOf(s2.substring(0,2));
+                int min1 = Integer.valueOf(s1.substring(3,5));
+                int min2 = Integer.valueOf(s2.substring(3,5));
+
+                if (year1 < year2) {
+
+                    score2 = score2 + ((year2 - year1) * 365 * 24 * 60);
+                } else {
+
+                    score1 = score1 + ((year1 - year2) * 365 * 24 * 60);
+                }
+                if (month1 < month2) {
+
+                    score2 = score2 + ((month2 - month1) * 30 * 24 * 60);
+                } else {
+
+                    score1 = score1 + ((month1 - month2) * 30 * 24 * 60);
+                }
+                if (day1 < day2) {
+
+                    score2 = score2 + (day2 - day1) * 24 * 60;
+                } else {
+
+                    score1 = score1 + (day1 - day2) * 24 * 60;
+                }
+
+                if (year1 == year2)
+                    if (month1 == month2)
+                        if (day1 == day2) {
+                            if (hour1 < hour2) {
+
+                                score2 = score2 + ((hour2- hour1) * 60);
+                            } else {
+
+                                score1 = score1 + ((hour1 - hour2) * 60);
+                            }
+                            if (min1 < min2) {
+
+                                score2 = score2 + (min2 - min1);
+                            } else {
+
+                                score1 = score1 + (min1 - min2);
+                            }
+                        }
+                return Integer.compare(score1, score2);
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    void ascendingSortAge() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                return Double.compare(r1.getAvgAge(), r2.getAvgAge());
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
+    void descendingSortAge() {
+        Comparator<Room> comparator = new Comparator<Room>() {
+            @Override
+            public int compare(Room r1, Room r2) {
+                return Double.compare(r2.getAvgAge(), r1.getAvgAge());
+            }
+        };
+        Collections.sort(rooms, comparator);
+        adapter.notifyDataSetChanged();
+    }
+
 
     /* @Override
     public void onBackPressed() {

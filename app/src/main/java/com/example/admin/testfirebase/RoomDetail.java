@@ -74,7 +74,7 @@ public class RoomDetail extends AppCompatActivity {
     TabHost tabHost;
     String id;
 
-
+    double avgAge = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,9 +118,11 @@ public class RoomDetail extends AppCompatActivity {
         }
 
         mRefUser.addChildEventListener(new ChildEventListener() {
+            double ageTemp = 0;
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final Person p = dataSnapshot.getValue(Person.class);
+
                 for (String strPlayer : arrPlayers) {
                     if (strPlayer.equals(p.getUID())) {
 
@@ -135,11 +137,13 @@ public class RoomDetail extends AppCompatActivity {
                             }
                         }
 
-
                         Calendar calendar = Calendar.getInstance();
                         int curyear = calendar.get(Calendar.YEAR);
                         int year = Integer.parseInt(p.getDOB().substring(6,10));
                         int age = curyear - year;
+
+                        double temp = (double) age;
+                        ageTemp = ageTemp + temp;
 
                         String information;
                         information = p.getName() + "\n" + p.getNick() + " - age "+age+"\nPhone "+p.getPhone();
@@ -152,6 +156,11 @@ public class RoomDetail extends AppCompatActivity {
                 if (players.size() >= 9)
                     notificationPopUp("ROOM NOTIFICATION", "10 people has join the room");
                 count.setText(String.valueOf(players.size()) + "/10" + " players");
+
+                if (players.size() == 0)
+                    avgAge = 0.0;
+                else
+                    avgAge = ageTemp/(players.size());
 
                 //3 Buttons
                 btnJoin.setOnClickListener(new View.OnClickListener() {
@@ -232,8 +241,8 @@ public class RoomDetail extends AppCompatActivity {
                         finish();
                     }
                 });
+                room.setAvgAge(avgAge);
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -312,15 +321,22 @@ public class RoomDetail extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 Room roomTemp = (Room) getIntent().getSerializableExtra("room");
+                Message messTemp = new Message("","");
                 data.clear();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
                     com.example.admin.testfirebase.Message mess = snapshot.getValue(com.example.admin.testfirebase.Message.class);
                     data.add(mess);
-                    /*if (mess.getMessageUser() != currentUser.getDisplayName())
-                        notificationPopUp("Room: " + roomTemp.getFieldName(),name + ": " +);*/
+                    messTemp = mess;
                 }
+                if(players.equals(currentUser.getUid()))
+                    if (messTemp.getMessageUser() != currentUser.getDisplayName())
+                        if(messTemp.getMessageUser() != "" && messTemp.getMessageText() != "")
+                            notificationPopUp("Room: " + roomTemp.getFieldName(),messTemp.getMessageUser()+ ": " + messTemp.getMessageText());
+
                 Adapter.notifyDataSetChanged();
+
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -480,11 +496,12 @@ public class RoomDetail extends AppCompatActivity {
         mCalendar.set(mCalendar.MINUTE, minute);
         mCalendar.set(mCalendar.SECOND, second);
 
+        Boolean temp = false;
         myIntent.putExtra("extra", "on");
         alarmIntent = PendingIntent.getBroadcast(RoomDetail.this, 0, myIntent, 0);
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), 1000*60*1, alarmIntent);
-        //mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
 
+        //mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
 
         Calendar c = Calendar.getInstance();
         int curHour = c.get(Calendar.HOUR_OF_DAY);
