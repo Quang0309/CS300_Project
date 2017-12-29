@@ -47,6 +47,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -230,7 +232,13 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                                                           int monthOfYear, int dayOfMonth) {
                                         monthOfYear = monthOfYear + 1;
                                         if (dateConstraint(dayOfMonth, monthOfYear, year))
-                                            etDate.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                                            /*etDate.setText(dayOfMonth + "-" + monthOfYear + "-" + year);*/
+                                        {
+                                            String sday = Integer.toString(dayOfMonth);
+                                            String smonth = Integer.toString(monthOfYear );
+                                            String res = ("00" + sday).substring(sday.length()) + "-" + ("00" + smonth).substring(smonth.length())  + "-" + year;
+                                            etDate.setText(res);
+                                        }
                                         else
                                             makeToast("Your schedule is not valid please input again");
 
@@ -460,7 +468,52 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Room r = dataSnapshot.getValue(Room.class);
-                rooms.add(r);
+
+
+                if (dateConstraint(Integer.valueOf(r.getDate().substring(0, 2)),
+                        Integer.valueOf(r.getDate().substring(3, 5)),
+                        Integer.valueOf(r.getDate().substring(6, 10)))) {
+
+                    rooms.add(r);
+                    Collections.sort(rooms, new Comparator<Room>() {
+                        @Override
+                        public int compare(Room r1, Room r2) {
+
+                            int score1 = 0, score2 = 0;
+                            int day1 = Integer.valueOf(r1.getDate().substring(0, 2));
+                            int day2 = Integer.valueOf(r2.getDate().substring(0, 2));
+                            int month1 = Integer.valueOf(r1.getDate().substring(3, 5));
+                            int month2 = Integer.valueOf(r2.getDate().substring(3, 5));
+                            int year1 = Integer.valueOf(r1.getDate().substring(6, 10));
+                            int year2 = Integer.valueOf(r2.getDate().substring(6, 10));
+
+                            if (year1 < year2) {
+
+                                score2 = score2 + ((year2 - year1) * 365);
+                            } else {
+
+                                score1 = score1 + ((year1 - year2) * 365);
+                            }
+                            if (month1 < month2) {
+
+                                score2 = score2 + ((month2 - month1) * 30);
+                            } else {
+
+                                score1 = score1 + ((month1 - month2) * 30);
+                            }
+                            if (day1 < day2) {
+
+                                score2 = score2 + (day2 - day1);
+                            } else {
+
+                                score1 = score1 + (day1 - day2);
+                            }
+
+                            return score1 - score2;
+                        }
+                    });
+                }
+
                 adapter.notifyDataSetChanged();
             }
 
@@ -526,16 +579,23 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     //Adding constraints for app
     boolean dateConstraint(int day, int month, int year) {
         Calendar c = Calendar.getInstance();
-        if (year >= c.get(Calendar.YEAR))
-            if(month >= c.get(Calendar.MONTH))
+        if (year > c.get(Calendar.YEAR))
+            return true;
+        else if (year == c.get(Calendar.YEAR))
+        {
+            if (month > c.get(Calendar.MONTH) + 1)
+                return true;
+            else if (month == c.get(Calendar.MONTH)+1)
+            {
                 if (day >= c.get(Calendar.DAY_OF_MONTH))
                     return true;
                 else
                     return false;
-            else
-                return false;
-        else
-            return false;
+            }
+
+        }
+
+        return false;
     }
 
     boolean timeConstraint(int hour, int minute) {
