@@ -7,6 +7,8 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -60,8 +62,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Button btnCreateRoom;
-    Button btnSortRoom;
+    FloatingActionButton btnCreateRoom;
+    FloatingActionButton btnSortRoom;
+    FloatingActionButton coreFab;
+
+    boolean isFABopen = false;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
     private int roomId;
@@ -104,8 +109,22 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
-        btnCreateRoom = (Button) findViewById(R.id.btn_create);
-        btnSortRoom = (Button) findViewById(R.id.btn_sort);
+        btnCreateRoom = (FloatingActionButton) findViewById(R.id.btn_create);
+        btnSortRoom = (FloatingActionButton) findViewById(R.id.btn_sort);
+
+        coreFab = (FloatingActionButton) findViewById(R.id.coreFab);
+
+        coreFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isFABopen){
+                    activateFAB();
+                }
+                else{
+                    deactivateFAB();
+                }
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -456,6 +475,44 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 }
             }
         });
+    }
+
+    private void deactivateFAB() {
+        isFABopen = false;
+        final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,0);
+        final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,0);
+        final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 0);
+        final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
+        final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
+        cretStrtAnim.setStartVelocity(100);
+        sortStrtAnim.setStartVelocity(100);
+        rotateCore.setStartVelocity(500);
+        corescaleXAnim.setStartVelocity(15);
+        corescaleYAnim.setStartVelocity(15);
+        cretStrtAnim.start();
+        sortStrtAnim.start();
+        corescaleXAnim.start();
+        corescaleYAnim.start();
+        rotateCore.start();
+    }
+
+    private void activateFAB() {
+        isFABopen = true;
+        final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_65));
+        final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_130));
+        final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 45);
+        final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
+        final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
+        cretStrtAnim.setStartVelocity(500);
+        sortStrtAnim.setStartVelocity(500);
+        rotateCore.setStartVelocity(500);
+        corescaleXAnim.setStartVelocity(15);
+        corescaleYAnim.setStartVelocity(15);
+        cretStrtAnim.start();
+        sortStrtAnim.start();
+        corescaleXAnim.start();
+        corescaleYAnim.start();
+        rotateCore.start();
     }
 
     private void init()
