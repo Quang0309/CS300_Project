@@ -119,6 +119,7 @@
             android:textColorHint="#abffffff"
             android:paddingLeft="28dp"
             android:background="@drawable/squarewhiteborderedittext"
+            android:inputType="phone"
             android:hint="Phone"
             android:id="@+id/txtPhone"/>
 
@@ -145,6 +146,7 @@
             android:paddingLeft="28dp"
             android:background="@drawable/squarewhiteborderedittext"
             android:text="Birthdate"
+            android:inputType="date"
             android:id="@+id/txtDOB"
             />
 
