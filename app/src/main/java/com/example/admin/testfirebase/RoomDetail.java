@@ -589,7 +589,7 @@ public class RoomDetail extends AppCompatActivity {
     private void notificationPopUp(String title, String text) {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
-        notification.setSmallIcon(R.mipmap.ic_launcher);
+        notification.setSmallIcon(R.drawable.ic_notif);
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle(title);
         notification.setContentText(text);
