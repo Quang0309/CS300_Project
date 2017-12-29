@@ -64,7 +64,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
         personViewHolder.fieldName.setText(rooms.get(i).getFieldName());
-        personViewHolder.matchTime.setText(rooms.get(i).getTime());
+        personViewHolder.matchTime.setText(rooms.get(i).getDate()+ " "+rooms.get(i).getTime());
 
         personViewHolder.matchId.setText("#"+rooms.get(i).getId());
 
