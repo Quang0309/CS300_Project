@@ -54,6 +54,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FloatingActionButton btnCreateRoom;
+    FloatingActionButton btnSearch;
     FloatingActionButton btnSortRoom;
     FloatingActionButton coreFab;
 
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         btnCreateRoom = (FloatingActionButton) findViewById(R.id.btn_create);
         btnSortRoom = (FloatingActionButton) findViewById(R.id.btn_sort);
+      /*  btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);*/
 
         coreFab = (FloatingActionButton) findViewById(R.id.coreFab);
 
@@ -181,7 +184,47 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             }
         });*/
 
+       /* btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final  Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.search_room);
+                dialog.setTitle("Search Room");
 
+                final EditText editTextSearch;
+                editTextSearch = (EditText) findViewById(R.id.edit_text_search);
+
+                Button btnSearchRoom = (Button) findViewById(R.id.btn_search_room);
+
+                btnSearchRoom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final String search = editTextSearch.getText().toString().toLowerCase(Locale.getDefault());
+                        editTextSearch.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                s = search;
+                                MainActivity.this.adapter.getFilter().filter(s);
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+*/
         btnSortRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -415,44 +458,49 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 btnCreateDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (etDate.getText().toString().isEmpty() || etTime.getText().toString().isEmpty()) {
+                            makeToast("Your schedule cannot be empty!! ??:D ??");
+                            dialog.dismiss();
+                        }
+                        else {
+                            name = arrayListFieldName.get(position_of_field_in_array);
+                            address =getArrayListFielAddress.get(position_of_field_in_array);
+                            date = etDate.getText().toString();
+                            time = etTime.getText().toString();
+                            playerArr = userId;
+                            roomId = 1;
+                            final boolean[] flag = {true};
 
-                        name = arrayListFieldName.get(position_of_field_in_array);
-                        address =getArrayListFielAddress.get(position_of_field_in_array);
-                        date = etDate.getText().toString();
-                        time = etTime.getText().toString();
-                        playerArr = userId;
-                        roomId = 1;
-                        final boolean[] flag = {true};
+                            mRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
 
-                        mRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                                        Room r = snapshot.getValue(Room.class);
+                                        if(r.getId().equals(String.valueOf(roomId))) {
 
-                                    Room r = snapshot.getValue(Room.class);
-                                    if(r.getId().equals(String.valueOf(roomId))) {
-
-                                        roomId = roomId + 1;
+                                            roomId = roomId + 1;
+                                        }
+                                    }
+                                    if (flag[0]) {
+                                        Room r = new Room(roomId, name, address, date, time, playerArr);
+                                        mRef.child(r.getId()).setValue(r);
+                                        mRefMessage.child(r.getId()).setValue(0);
+                                        flag[0] = false;
                                     }
                                 }
-                                if (flag[0]) {
-                                    Room r = new Room(roomId, name, address, date, time, playerArr);
-                                    mRef.child(r.getId()).setValue(r);
-                                    mRefMessage.child(r.getId()).setValue(0);
-                                    flag[0] = false;
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
                                 }
-                            }
+                            });
+                            dialog.dismiss();
+                            Toast.makeText(MainActivity.this, "room created!", Toast.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
-                        });
-                        dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "room created!", Toast.LENGTH_SHORT).show();
                     }
                 });
-
                 dialog.show();
             }
         });
@@ -481,16 +529,19 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         isFABopen = false;
         final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,0);
         final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,0);
+//        final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,0);
         final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 0);
         final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
         final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
         cretStrtAnim.setStartVelocity(100);
         sortStrtAnim.setStartVelocity(100);
+//        searchStartAnim.setStartVelocity(100);
         rotateCore.setStartVelocity(500);
         corescaleXAnim.setStartVelocity(15);
         corescaleYAnim.setStartVelocity(15);
         cretStrtAnim.start();
         sortStrtAnim.start();
+//        searchStartAnim.start();
         corescaleXAnim.start();
         corescaleYAnim.start();
         rotateCore.start();
@@ -500,16 +551,19 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         isFABopen = true;
         final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_65));
         final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_130));
+//        final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_195));
         final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 45);
         final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
         final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
         cretStrtAnim.setStartVelocity(500);
         sortStrtAnim.setStartVelocity(500);
+//        searchStartAnim.setStartVelocity(500);
         rotateCore.setStartVelocity(500);
         corescaleXAnim.setStartVelocity(15);
         corescaleYAnim.setStartVelocity(15);
         cretStrtAnim.start();
         sortStrtAnim.start();
+//        searchStartAnim.start();
         corescaleXAnim.start();
         corescaleYAnim.start();
         rotateCore.start();

@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -388,7 +390,7 @@ public class RoomDetail extends AppCompatActivity {
                     data.add(mess);
                     messTemp = mess;
                 }
-                if(players.equals(currentUser.getUid()))
+              /*  if(players.equals(currentUser.getUid()))*/
                     if (messTemp.getMessageUser() != currentUser.getDisplayName())
                         if(messTemp.getMessageUser() != "" && messTemp.getMessageText() != "")
                             notificationPopUp("Room: " + roomTemp.getFieldName(),messTemp.getMessageUser()+ ": " + messTemp.getMessageText());
@@ -587,13 +589,20 @@ public class RoomDetail extends AppCompatActivity {
     }
 
     private void notificationPopUp(String title, String text) {
+        Context context = this;
+       /* Bitmap notifIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notif);*/
+
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
-        notification.setSmallIcon(R.mipmap.ic_launcher);
+        notification.setSmallIcon(R.mipmap.ic_notif);
+       /* notification.setLargeIcon(notifIcon);*/
+        notification.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_notif));
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle(title);
         notification.setContentText(text);
-
+        /*notification.setSound(R.raw.zoops1);*/
+       /* notification.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(notifIcon));
+*/
         final int notifyId = 2;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notifyId, notification.build());
