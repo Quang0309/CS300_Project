@@ -14,7 +14,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
@@ -50,6 +49,23 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_sort"
             android:backgroundTint="#ffffff" />
+
+
+        <!--<android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_search"
+            app:elevation="5dp"
+            app:borderWidth="0px"
+            app:fabSize="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/ic_search_gray_24dp"
+            android:backgroundTint="#ffffff" />-->
+
 
         <android.support.design.widget.FloatingActionButton
             app:elevation="5dp"
