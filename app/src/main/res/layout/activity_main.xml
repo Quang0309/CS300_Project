@@ -82,35 +82,6 @@
             android:id="@+id/coreFab"/>
 
     </RelativeLayout>
-<!--
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/ripple_effect"
-            android:clickable="true"
-            android:text="create room"
-            android:textAllCaps="false"
-            android:textColor="@color/opa25PrimaryDark"
-            android:textSize="25sp" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/ripple_effect"
-            android:clickable="true"
-            android:text="sort room"
-            android:textAllCaps="false"
-            android:textColor="@color/opa25PrimaryDark"
-            android:textSize="25sp" />
-    </LinearLayout> -->
-
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_bar"
         android:layout_width="wrap_content"

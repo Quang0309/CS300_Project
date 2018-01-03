@@ -156,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         populateListRoom();
         loadUser();
 
-
        /* btnFieldAsc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -458,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 btnCreateDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (etDate.getText().toString().isEmpty() || etTime.getText().toString().isEmpty()) {
+                       if (etDate.getText().toString().isEmpty() || etTime.getText().toString().isEmpty()) {
                             makeToast("Your schedule cannot be empty!! ??:D ??");
                             dialog.dismiss();
                         }
@@ -492,8 +491,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                                 @Override
                                 public void onCancelled(FirebaseError firebaseError) {
-
-                                }
+                                  }
                             });
                             dialog.dismiss();
                             Toast.makeText(MainActivity.this, "room created!", Toast.LENGTH_SHORT).show();
