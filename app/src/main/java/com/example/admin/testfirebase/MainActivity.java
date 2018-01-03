@@ -153,35 +153,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         populateListRoom();
         loadUser();
 
-
-       /* btnFieldAsc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comparator<Room> comparator = new Comparator<Room>() {
-                    @Override
-                    public int compare(Room r1, Room r2) {
-                        return r1.getFieldName().compareToIgnoreCase(r2.getFieldName());
-                    }
-                };
-                Collections.sort(rooms, comparator);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        btnFieldDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comparator<Room> comparator = new Comparator<Room>() {
-                    @Override
-                    public int compare(Room r1, Room r2) {
-                        return r2.getFieldName().compareToIgnoreCase(r1.getFieldName());
-                    }
-                };
-                Collections.sort(rooms, comparator);
-                adapter.notifyDataSetChanged();
-            }
-        });*/
-
-
         btnSortRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -415,44 +386,50 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 btnCreateDialog.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String s = etDate.getText().toString();
+                        String s1 = etTime.getText().toString();
+                        if (s == "" || s1 == ""){
+                            makeToast("Your schedule cannot be empty");
+                            dialog.dismiss();
+                        }
+                        else {
+                            name = arrayListFieldName.get(position_of_field_in_array);
+                            address =getArrayListFielAddress.get(position_of_field_in_array);
+                            date = etDate.getText().toString();
+                            time = etTime.getText().toString();
+                            playerArr = userId;
+                            roomId = 1;
+                            final boolean[] flag = {true};
 
-                        name = arrayListFieldName.get(position_of_field_in_array);
-                        address =getArrayListFielAddress.get(position_of_field_in_array);
-                        date = etDate.getText().toString();
-                        time = etTime.getText().toString();
-                        playerArr = userId;
-                        roomId = 1;
-                        final boolean[] flag = {true};
+                            mRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
 
-                        mRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                                        Room r = snapshot.getValue(Room.class);
+                                        if(r.getId().equals(String.valueOf(roomId))) {
 
-                                    Room r = snapshot.getValue(Room.class);
-                                    if(r.getId().equals(String.valueOf(roomId))) {
-
-                                        roomId = roomId + 1;
+                                            roomId = roomId + 1;
+                                        }
+                                    }
+                                    if (flag[0]) {
+                                        Room r = new Room(roomId, name, address, date, time, playerArr);
+                                        mRef.child(r.getId()).setValue(r);
+                                        mRefMessage.child(r.getId()).setValue(0);
+                                        flag[0] = false;
                                     }
                                 }
-                                if (flag[0]) {
-                                    Room r = new Room(roomId, name, address, date, time, playerArr);
-                                    mRef.child(r.getId()).setValue(r);
-                                    mRefMessage.child(r.getId()).setValue(0);
-                                    flag[0] = false;
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
-                        });
-                        dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "room created!", Toast.LENGTH_SHORT).show();
+                            });
+                            dialog.dismiss();
+                            Toast.makeText(MainActivity.this, "room created!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
-
                 dialog.show();
             }
         });
