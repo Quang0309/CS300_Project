@@ -4,5 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dip_65">65dp</dimen>
     <dimen name="dip_130">130dp</dimen>
+    <dimen name="dip_195">195dp</dimen>
     <dimen name="dip_neg65">-65dp</dimen>
 </resources>
