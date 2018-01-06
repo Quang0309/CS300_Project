@@ -9,10 +9,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
+        <!--<EditText
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:id="@+id/edit_text_search"
+            android:id="@+id/edit_text_search"-->
             />
         <Button
             style="?android:attr/borderlessButtonStyle"

@@ -64,9 +64,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FloatingActionButton btnCreateRoom;
-    FloatingActionButton btnSearch;
+    /*FloatingActionButton btnSearch;*/
     FloatingActionButton btnSortRoom;
     FloatingActionButton coreFab;
+
+    EditText editTextSearchRoom;
 
     boolean isFABopen = false;
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     ActionBarDrawerToggle mToggle;
     CircleImageView circle_avatar;
     ArrayList<String> arrayList,arrayListFieldName,getArrayListFielAddress;
-    ArrayAdapter<String> arrayAdapter,arrayAdapter2, arraySortTypeAdapter;
+    ArrayAdapter<String> arrayAdapter,arrayAdapter2;
     ListFieldMenuAdapter fieldAdapter;
     String district;
     com.firebase.client.ValueEventListener mVe2,mVeField;
@@ -113,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         btnCreateRoom = (FloatingActionButton) findViewById(R.id.btn_create);
         btnSortRoom = (FloatingActionButton) findViewById(R.id.btn_sort);
-      /*  btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);*/
+        /*btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);*/
+        editTextSearchRoom = (EditText) findViewById(R.id.edit_text_search);
 
         coreFab = (FloatingActionButton) findViewById(R.id.coreFab);
 
@@ -156,32 +159,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         populateListRoom();
         loadUser();
 
-       /* btnFieldAsc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comparator<Room> comparator = new Comparator<Room>() {
-                    @Override
-                    public int compare(Room r1, Room r2) {
-                        return r1.getFieldName().compareToIgnoreCase(r2.getFieldName());
-                    }
-                };
-                Collections.sort(rooms, comparator);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        btnFieldDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comparator<Room> comparator = new Comparator<Room>() {
-                    @Override
-                    public int compare(Room r1, Room r2) {
-                        return r2.getFieldName().compareToIgnoreCase(r1.getFieldName());
-                    }
-                };
-                Collections.sort(rooms, comparator);
-                adapter.notifyDataSetChanged();
-            }
-        });*/
+
 
        /* btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,8 +200,44 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     }
                 });
             }
+        });*/
+
+
+
+        editTextSearchRoom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text = editTextSearchRoom.getText().toString().toLowerCase(Locale.getDefault());
+                text = text.toLowerCase(Locale.getDefault());
+                List<Room> temp = new ArrayList<>();
+                /*temp.addAll(rooms);
+                rooms.clear();*/
+                if (text.length() == 0)
+                    temp.addAll(rooms);
+                else {
+                    for (int i = 0; i < rooms.size(); i++)
+                        if(rooms.get(i).getFieldName().toLowerCase(Locale.getDefault()).contains(text) ||
+                                rooms.get(i).getDate().toLowerCase(Locale.getDefault()).contains(text) ||
+                                rooms.get(i).getTime().toLowerCase(Locale.getDefault()).contains(text) ) {
+                            temp.add(rooms.get(i));
+                        }
+                }
+                adapter = new RVAdapter(temp);
+                rv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
         });
-*/
+
         btnSortRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -527,7 +541,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         isFABopen = false;
         final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,0);
         final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,0);
-//        final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,0);
+      /*  final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,0);*/
         final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 0);
         final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
         final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
@@ -549,19 +563,19 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         isFABopen = true;
         final SpringAnimation cretStrtAnim = new SpringAnimation(btnCreateRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_65));
         final SpringAnimation sortStrtAnim = new SpringAnimation(btnSortRoom, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_130));
-//        final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_195));
+        /*final SpringAnimation searchStartAnim = new SpringAnimation(btnSearch, DynamicAnimation.TRANSLATION_Y,-getResources().getDimension(R.dimen.dip_195));*/
         final SpringAnimation rotateCore = new SpringAnimation(coreFab, DynamicAnimation.ROTATION, 45);
         final SpringAnimation corescaleXAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_X,-1);
         final SpringAnimation corescaleYAnim = new SpringAnimation(coreFab, DynamicAnimation.SCALE_Y,-1);
         cretStrtAnim.setStartVelocity(500);
         sortStrtAnim.setStartVelocity(500);
-//        searchStartAnim.setStartVelocity(500);
+        /*searchStartAnim.setStartVelocity(500);*/
         rotateCore.setStartVelocity(500);
         corescaleXAnim.setStartVelocity(15);
         corescaleYAnim.setStartVelocity(15);
         cretStrtAnim.start();
         sortStrtAnim.start();
-//        searchStartAnim.start();
+        /*searchStartAnim.start();*/
         corescaleXAnim.start();
         corescaleYAnim.start();
         rotateCore.start();
@@ -1037,6 +1051,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         Collections.sort(rooms, comparator);
         adapter.notifyDataSetChanged();
     }
+
 
 
     /* @Override

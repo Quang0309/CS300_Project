@@ -14,10 +14,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/edit_text_search"
+            android:hint="Search room with name and date">
+        </EditText>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/edit_text_search"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_create"

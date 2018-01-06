@@ -16,44 +16,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements Filterable{
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
-    @Override
-    public Filter getFilter() {
-        Filter filter = new Filter() {
-            RVAdapter adapter;
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
+    public void filter(String search, Room r) {
 
-                FilterResults results = new FilterResults();
-                ArrayList<String> FilteredArrayNames = new ArrayList<String>() {
-                };
-
-                // perform your search here using the searchConstraint String.
-
-                constraint = constraint.toString().toLowerCase();
-                for (int i = 0; i < rooms.size(); i++) {
-                    String dataNames = rooms.get(i).getFieldName();
-                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
-                        FilteredArrayNames.add(dataNames);
-                    }
-                }
-
-                results.count = FilteredArrayNames.size();
-                results.values = FilteredArrayNames;
-               /* Log.e("VALUES", results.values.toString());*/
-
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            }
-
-        };
-        return filter;
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {

@@ -390,10 +390,10 @@ public class RoomDetail extends AppCompatActivity {
                     data.add(mess);
                     messTemp = mess;
                 }
-              /*  if(players.equals(currentUser.getUid()))*/
-                    if (messTemp.getMessageUser() != currentUser.getDisplayName())
-                        if(messTemp.getMessageUser() != "" && messTemp.getMessageText() != "")
-                            notificationPopUp("Room: " + roomTemp.getFieldName(),messTemp.getMessageUser()+ ": " + messTemp.getMessageText());
+
+                if (messTemp.getMessageUser() != currentUser.getDisplayName())
+                    if(messTemp.getMessageUser() != "" && messTemp.getMessageText() != "")
+                        notificationPopUp("Room: " + roomTemp.getFieldName(),messTemp.getMessageUser()+ ": " + messTemp.getMessageText());
 
                 Adapter.notifyDataSetChanged();
 
@@ -562,8 +562,6 @@ public class RoomDetail extends AppCompatActivity {
         alarmIntent = PendingIntent.getBroadcast(RoomDetail.this, 0, myIntent, 0);
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), 1000*60*1, alarmIntent);
 
-        //mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
-
         Calendar c = Calendar.getInstance();
         int curHour = c.get(Calendar.HOUR_OF_DAY);
         int curMinute = c.get(Calendar.MINUTE);
@@ -590,19 +588,15 @@ public class RoomDetail extends AppCompatActivity {
 
     private void notificationPopUp(String title, String text) {
         Context context = this;
-       /* Bitmap notifIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notif);*/
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
         notification.setSmallIcon(R.mipmap.ic_notif);
-       /* notification.setLargeIcon(notifIcon);*/
         notification.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_notif));
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle(title);
         notification.setContentText(text);
-        /*notification.setSound(R.raw.zoops1);*/
-       /* notification.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(notifIcon));
-*/
+
         final int notifyId = 2;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notifyId, notification.build());

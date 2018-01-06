@@ -34,10 +34,10 @@
             android:textSize="14sp"
             android:entries="@array/sort_order"
             android:prompt="@string/sort_order_prompt"/>
-        <CheckBox
+        <!--<CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show joined room only "/>
+            android:text="Show joined room only "/>-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
