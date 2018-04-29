@@ -1,10 +1,14 @@
 package com.example.admin.testfirebase;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.animation.DynamicAnimation;
@@ -18,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +52,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -55,6 +61,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -91,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private RVAdapter adapter;
     ActionBarDrawerToggle mToggle;
     CircleImageView circle_avatar;
+
     ArrayList<String> arrayList,arrayListFieldName,getArrayListFielAddress;
     ArrayAdapter<String> arrayAdapter,arrayAdapter2;
     ListFieldMenuAdapter fieldAdapter;
@@ -103,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     String URL = "";
     ProgressDialog dialog;
+    View headerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
+        headerLayout = navigationView.inflateHeaderView(R.layout.header_layout);
+        circle_avatar = headerLayout.findViewById(R.id.circle_avatar);
 
         btnCreateRoom = (FloatingActionButton) findViewById(R.id.btn_create);
         btnSortRoom = (FloatingActionButton) findViewById(R.id.btn_sort);
@@ -623,8 +635,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                             if (!person.getURL().equals(""))
                             {
                                 URL = person.getURL();
-
+                                Glide.with(MainActivity.this).load(URL).into(circle_avatar);
                             }
+                            else
+                                circle_avatar.setImageResource(R.drawable.ic_avatar);
                             break;
                         }
                     }
@@ -645,9 +659,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
                 dialog.dismiss();
             }
-        }, 4000); // 4s
+        }, 2000); // 4s
 
     }
+
+
+
 
     private void onRetrieveDataSuccuss(String username) {
         if(username==null)
@@ -787,12 +804,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        circle_avatar = (CircleImageView) findViewById(R.id.circle_avatar);
+        //circle_avatar = (CircleImageView) findViewById(R.id.circle_avatar);
 
-        if (URL.equals(""))
-            circle_avatar.setImageResource(R.drawable.ic_avatar);
-        else
-            Glide.with(MainActivity.this).load(URL).into(circle_avatar);
+
+
     }
 
     @Override

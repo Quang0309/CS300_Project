@@ -30,10 +30,14 @@ public class RingtonePlayService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Log.i("Local Service", "Receive start id " + startId + ": " + intent);
-
+        String state;
         // Get the extra string value
-        String state = intent.getExtras().getString("extra");
-
+        if (intent!=null)
+          state = intent.getExtras().getString("extra");
+        else {
+            Log.i("Local Service","null");
+            state = "off";
+        }
         // Convert extra string from the intent to startId (0 or 1)
         assert state != null;
         switch (state) {
