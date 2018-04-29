@@ -4,6 +4,7 @@
     android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
+    android:id="@+id/header_layout"
     android:orientation="vertical">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="10dp"

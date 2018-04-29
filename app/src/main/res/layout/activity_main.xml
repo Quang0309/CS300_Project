@@ -13,12 +13,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:id="@+id/edit_text_search"
+
             android:hint="Search room with name and date">
         </EditText>
         <android.support.v7.widget.RecyclerView
@@ -95,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/header_layout"
+
         app:menu="@menu/navigation_menu">
 
     </android.support.design.widget.NavigationView>
