@@ -22,13 +22,13 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:scaleType="center"
-            android:src="@drawable/field" />
+             />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="85dp"
             android:src="#55000000"
-            android:layout_alignBottom="@id/match_time"></ImageView>
+            android:layout_alignBottom="@id/match_time"/>
 
         <TextView
             android:id="@+id/field_name"

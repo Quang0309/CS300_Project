@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     private final String TAG= "FaceLog";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppThemeNoActionBar);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signinlayout);
         mAuth = FirebaseAuth.getInstance();

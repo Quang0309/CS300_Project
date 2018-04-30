@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/image_view_field"
-        tools:src="@drawable/field"
+
         android:scaleType="centerCrop"
         android:layout_above="@+id/divCenter"/>
 
@@ -118,47 +118,4 @@
         android:textSize="20sp"
         tools:text="Address"/>
 
-<!--
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/hor_img"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_below="@+id/text_view_field_address_detail"
-        android:fillViewport="true"
-        android:background="#cbcbcb">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                style="@style/ImageHor">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/field"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                style="@style/ImageHor">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/football"/>
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/ImageHor">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/football"/>
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
--->
 </RelativeLayout>

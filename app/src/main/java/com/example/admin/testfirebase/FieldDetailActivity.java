@@ -119,64 +119,7 @@ public class FieldDetailActivity extends AppCompatActivity {
                         final ProgressDialog progressDialog = new ProgressDialog(FieldDetailActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
-                        /*
-                            Lay userID ra
-                         */
 
-                        // mRating = FirebaseDatabase.getInstance().getReference().child("Rating").child("-Ky1t5nJJ3YEVUY8EzRY"); // test only
-                        /*mRating=FirebaseDatabase.getInstance().getReference().child("Rating").child(key); // vao cai key cua field hien tai
-                        mVeRating = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                float avgRating = 0;
-                                int countUser = 0;
-                                Number tmp;
-                                boolean isChanged = false;
-
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) { // lấy từng child trong cái field hien tai
-                                    // bỏ qua cái default value và userID
-                                    if ((!snapshot.getKey().toString().equals("DEFAULT")) && !snapshot.getKey().toString().equals(UserID)) {
-                                        tmp = (Number) snapshot.getValue(); // snapshot.getValue return long, which cannot cast to float
-                                        avgRating += tmp.floatValue();
-                                        ++countUser;
-                                    } else if (snapshot.getKey().toString().equals(UserID)) { // nếu có userID trong folder Rating thì update value
-                                        mRating.child(UserID).setValue(ratingBarDialog.getRating()); // update value
-                                        avgRating += ratingBarDialog.getRating();
-                                        ++countUser;
-                                        isChanged = true;
-                                    }
-                                }
-                                // userID này chưa rate cho cái field hiện tại
-                                // push userID cùng với rating vào cái field
-                                if (!isChanged) {
-                                    mRating.push().setValue(ratingBarDialog.getRating()); //test
-                                    avgRating += ratingBarDialog.getRating();
-                                    ++countUser;
-                                }
-
-                                // after that, update the average rating value of the field
-                                mRef = FirebaseDatabase.getInstance().getReference().child(district).child(key); // test only
-                                avgRating = avgRating / countUser;
-                                mRef.child("rating").setValue(avgRating);
-                                ratingBar.setRating(avgRating);
-
-                                progressDialog.dismiss();
-                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialog) {
-                                        mRating.removeEventListener(mVeRating);
-                                        // mRating.addListenerForSingleValueEvent(mVeRating);
-                                    }
-                                });
-
-                                dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        };*/
                         mRating2=new Firebase("https://testmap-60706.firebaseio.com/").child("Rating").child(key);
                         mVeRating2= new com.firebase.client.ValueEventListener() {
                             @Override
