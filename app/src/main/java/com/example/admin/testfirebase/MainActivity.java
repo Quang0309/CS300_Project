@@ -3,6 +3,7 @@ package com.example.admin.testfirebase;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -124,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         rv.setHasFixedSize(true);
         headerLayout = navigationView.inflateHeaderView(R.layout.header_layout);
         circle_avatar = headerLayout.findViewById(R.id.circle_avatar);
-
+        Intent intent = new Intent(this,LoadFieldService.class);
+        startService(intent);
         btnCreateRoom = (FloatingActionButton) findViewById(R.id.btn_create);
         btnSortRoom = (FloatingActionButton) findViewById(R.id.btn_sort);
         /*btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);*/

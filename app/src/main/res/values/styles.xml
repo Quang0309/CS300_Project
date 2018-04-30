@@ -49,5 +49,7 @@
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
     </style>
-
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splashhd</item>
+    </style>
 </resources>

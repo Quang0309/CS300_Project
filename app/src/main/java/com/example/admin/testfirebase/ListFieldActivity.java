@@ -28,9 +28,8 @@ public class ListFieldActivity extends AppCompatActivity {
     static ArrayList<FieldMenu> fieldMenuArrayList;
     static ArrayList<String> keyArrayList;
     String district,UserID;
-    DatabaseReference mRef;
     Firebase mRef2;
-    StorageReference mStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,28 +44,7 @@ public class ListFieldActivity extends AppCompatActivity {
         loadData(district);
     }
     private void loadData(String district) {
-       /* mRef= FirebaseDatabase.getInstance().getReference().child(district);
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                fieldMenuArrayList.clear();
-                keyArrayList.clear();
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    FieldMenu field=snapshot.getValue(FieldMenu.class);
-                    if (field!=null) {
-                        fieldMenuArrayList.add(field);
-                        keyArrayList.add(snapshot.getKey());
-                    }
-                }
-                fieldMenuAdapter.clear();
-                fieldMenuAdapter.addAll(fieldMenuArrayList);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
         mRef2= new Firebase("https://testmap-60706.firebaseio.com/");
         mRef2=mRef2.child(district);
         mRef2.addValueEventListener(new com.firebase.client.ValueEventListener() {
